@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>主体页面</title>
+    <#include "../common/import.ftl"/>
 </head>
 <body>
 <#include "/spring.ftl"/>
