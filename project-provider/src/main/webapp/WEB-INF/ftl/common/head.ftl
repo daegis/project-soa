@@ -7,16 +7,14 @@
             <a href="javascript:;">用户</a>
             <dl class="layui-nav-child">
                 <dd><a href="/to/userAdd.go">添加</a></dd>
-                <dd><a href="">选项2</a></dd>
-                <dd><a href="">选项3</a></dd>
+                <dd><a href="">管理</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
             <a href="javascript:;">事件</a>
             <dl class="layui-nav-child">
-                <dd><a href="">选项1</a></dd>
-                <dd><a href="">选项2</a></dd>
-                <dd><a href="">选项3</a></dd>
+                <dd><a href="">添加</a></dd>
+                <dd><a href="">管理</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
