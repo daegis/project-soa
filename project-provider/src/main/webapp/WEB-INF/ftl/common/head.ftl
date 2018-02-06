@@ -1,10 +1,12 @@
 <div>
     <ul class="layui-nav">
-        <li class="layui-nav-item"><a href="javascript:;">首页</a></li>
-        <li class="layui-nav-item layui-this">
+        <li class="layui-nav-item<#if category??><#else> layui-this</#if>">
+            <a href="/to/main.go">首页</a>
+        </li>
+        <li class="layui-nav-item<#if (category??&&category=='user')> layui-this</#if>">
             <a href="javascript:;">用户</a>
             <dl class="layui-nav-child">
-                <dd><a href="">选项1</a></dd>
+                <dd><a href="/to/userAdd.go">添加</a></dd>
                 <dd><a href="">选项2</a></dd>
                 <dd><a href="">选项3</a></dd>
             </dl>
