@@ -6,7 +6,7 @@
         <li class="layui-nav-item<#if (category??&&category=='user')> layui-this</#if>">
             <a href="javascript:;">用户</a>
             <dl class="layui-nav-child">
-                <dd><a href="/to/userAdd.go">添加</a></dd>
+                <dd <#if from??&&from=='userAdd' >class="layui-this"</#if>><a href="/to/userAdd.go">添加</a></dd>
                 <dd><a href="">管理</a></dd>
             </dl>
         </li>
