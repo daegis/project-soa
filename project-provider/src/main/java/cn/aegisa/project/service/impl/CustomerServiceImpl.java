@@ -32,10 +32,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private void paramsCheck(CustomerInfo customerInfo) throws Exception {
-        if (StrUtil.strCheckNotNull(customerInfo.getNickname())) {
+        if (!StrUtil.strCheckNotNull(customerInfo.getNickname())) {
             throw new Exception("昵称不能为空");
         }
         String telephone = customerInfo.getTelephone();
-
+        if (!StrUtil.strCheckNotNull(telephone)) {
+            throw new Exception("电话号码不能为空");
+        }
+        if (!telephone.matches("1[3-9]\\d{9}")) {
+            throw new Exception("电话号码不符合规则");
+        }
     }
 }
