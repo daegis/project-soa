@@ -3,6 +3,7 @@ package cn.aegisa.project.service.impl;
 import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
+import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
         if (!telephone.matches("1[3-9]\\d{9}")) {
             throw new Exception("电话号码不符合规则");
+        }
+        if (StrUtil.strCheckNotNull(customerInfo.getIdNumber())) {
+            if (!IDNumberUtil.checkID(customerInfo.getIdNumber())) {
+                throw new Exception("身份证号码不符合规则, 未知请留空");
+            }
         }
     }
 }
