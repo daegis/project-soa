@@ -31,7 +31,7 @@ public class CustomerRestController {
             customerService.save(customerInfo);
             return MessageResponse.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return MessageResponse.fail(e.getMessage());
         }
     }

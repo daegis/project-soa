@@ -43,9 +43,14 @@ public class CustomerServiceImpl implements CustomerService {
         if (!telephone.matches("1[3-9]\\d{9}")) {
             throw new Exception("电话号码不符合规则");
         }
-        if (StrUtil.strCheckNotNull(customerInfo.getIdNumber())) {
-            if (!IDNumberUtil.checkID(customerInfo.getIdNumber())) {
+        String idNumber = customerInfo.getIdNumber();
+        if (StrUtil.strCheckNotNull(idNumber)) {
+            if (!IDNumberUtil.checkID(idNumber)) {
                 throw new Exception("身份证号码不符合规则, 未知请留空");
+            }
+            Integer idCount = commonService.getBySqlId(CustomerInfo.class, "pageCount", "idNumber", idNumber);
+            if (idCount != 0) {
+                throw new Exception("身份证号码冲突, 此人已存在");
             }
         }
     }
