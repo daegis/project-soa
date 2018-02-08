@@ -8,7 +8,7 @@
 <body>
 <#include "../common/head.ftl"/>
 <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
-    <form class="layui-form layui-form-pane" action="javascript:;">
+    <form class="layui-form layui-form-pane" action="javascript:;" id="customerForm">
         <div class="layui-form-item">
             <label class="layui-form-label">网名</label>
             <div class="layui-input-inline">
@@ -56,6 +56,7 @@
         </div>
     </form>
 </div>
+<#include "../common/util.ftl"/>
 <script>
     layui.use(['form', 'jquery', 'laydate'], function () {
         var form = layui.form
@@ -75,9 +76,16 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        alert('success');
+                        layer.confirm('添加成功!还要继续添加吗？', {
+                            btn: ['继续', '离开'] //按钮
+                        }, function () {
+                            layer.closeAll();
+                            $('#customerForm')[0].reset();
+                        }, function () {
+                            window.location.href = '/';
+                        });
                     } else {
-                        alert(data.message);
+                        doAlert(layer, data.message);
                     }
                 }
             });
