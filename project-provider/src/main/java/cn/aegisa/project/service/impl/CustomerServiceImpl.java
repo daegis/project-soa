@@ -1,6 +1,8 @@
 package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
+import cn.aegisa.project.dao.utils.PageFinder;
+import cn.aegisa.project.dao.utils.Query;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.utils.IDNumberUtil;
@@ -8,11 +10,12 @@ import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 import cn.aegisa.project.vo.customer.CustomerQueryVo;
 import cn.aegisa.project.vo.customer.CustomerResponseVo;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.*;
 
 /**
  * Using IntelliJ IDEA.
@@ -37,9 +40,39 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LayuiDataGridResponse<CustomerResponseVo> queryList(CustomerQueryVo queryVo) {
-
-
-        return null;
+        LayuiDataGridResponse<CustomerResponseVo> response = new LayuiDataGridResponse<>();
+        Map<String, Object> params = new LinkedHashMap<>();
+        Integer page = queryVo.getPage();
+        if (page == null) {
+            page = 1;
+        }
+        Integer limit = queryVo.getLimit();
+        if (limit == null) {
+            limit = 10;
+        }
+        Integer start = limit * (page - 1);
+        params.put("start", start);
+        params.put("limit", limit);
+        String keyword = queryVo.getKeyword();
+        if (StrUtil.strCheckNotNull(keyword)) {
+            // keyword is not null or empty
+            params.put("keyword", keyword);
+        }
+        log.info("查询信息:{}", JSON.toJSONString(params));
+        Integer count = commonService.getBySqlId(CustomerInfo.class, "queryCount", params);
+        List<CustomerInfo> data = commonService.getListBySqlId(CustomerInfo.class, "queryData", params);
+        List<CustomerResponseVo> list = new LinkedList<>();
+        for (CustomerInfo info : data) {
+            CustomerResponseVo vo = new CustomerResponseVo();
+            vo.setId(String.valueOf(info.getId()));
+            vo.setNickname(info.getNickname());
+            vo.setTelephone(info.getTelephone());
+            vo.setGender("--");
+            list.add(vo);
+        }
+        response.setCount(count);
+        response.setData(list);
+        return response;
     }
 
     private void paramsCheck(CustomerInfo customerInfo) throws Exception {

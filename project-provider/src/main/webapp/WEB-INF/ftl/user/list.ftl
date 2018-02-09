@@ -25,6 +25,7 @@
         var tableIns = table.render({
             elem: '#dataTable',
             cols: [[
+                {field: 'id', title: 'ID', width: 50, align: 'center'},
                 {field: 'nickname', title: '网名', width: 100, align: 'center'},
                 {field: 'telephone', title: '手机号', width: 120, align: 'center'},
                 {field: 'gender', title: '性别', width: 60, align: 'center', templet: '#sexTpl'},
@@ -65,9 +66,9 @@
     })
 </script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">指派活动</a>
-    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">指派活动</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="sexTpl">
     {{#  if(d.gender === '女'){ }}

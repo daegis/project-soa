@@ -12,4 +12,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CustomerResponseVo {
+    private String id;
+    private String nickname;
+    private String telephone;
+    private String gender;
+    private String address;
+    private String name;
+    private String idNumber;
+    private String lastModified;
+    private String comment;
 }
