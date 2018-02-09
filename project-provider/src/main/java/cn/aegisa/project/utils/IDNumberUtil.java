@@ -2,7 +2,7 @@ package cn.aegisa.project.utils;
 
 import java.util.Calendar;
 
-public class IDNumberUtil {
+public abstract class IDNumberUtil {
 
     /**
      * @param no id number to be checked
@@ -28,7 +28,7 @@ public class IDNumberUtil {
 
     public static String getAgeFromID(String no) {
         if (!checkID(no)) {
-            return "非法ID";
+            return "--";
         }
         String dob = no.substring(6, 14);
         String yearString = dob.substring(0, 4);
@@ -60,7 +60,7 @@ public class IDNumberUtil {
 
     public static String getDOB(String no) {
         if (!checkID(no)) {
-            return "非法身份证号码";
+            return "--";
         }
         String dob = no.substring(6, 14);
         String yearString = dob.substring(0, 4);
@@ -74,7 +74,7 @@ public class IDNumberUtil {
 
     public static String getGender(String no) {
         if (!checkID(no)) {
-            return "非法ID";
+            return "--";
         }
         char c = no.charAt(16);
         int gender = c - '0';

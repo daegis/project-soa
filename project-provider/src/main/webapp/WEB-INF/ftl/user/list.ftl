@@ -29,12 +29,13 @@
                 {field: 'nickname', title: '网名', width: 100, align: 'center'},
                 {field: 'telephone', title: '手机号', width: 120, align: 'center'},
                 {field: 'gender', title: '性别', width: 60, align: 'center', templet: '#sexTpl'},
+                {field: 'age', title: '年龄', width: 60, align: 'center'},
                 {field: 'address', title: '地址', width: 120, align: 'center'},
                 {field: 'name', title: '真实姓名', width: 90, align: 'center'},
                 {field: 'idNumber', title: '身份证号', width: 185, align: 'center'},
-                {field: 'lastModifiedTime', title: '最后编辑时间', sort: true, width: 180, align: 'center'},
+                {field: 'lastModified', title: '最后编辑时间', sort: true, width: 180, align: 'center'},
                 {field: 'comment', title: '备注信息', width: '180', align: 'center'},
-                {fixed: 'right', width: 200, align: 'center', toolbar: '#bar'}
+                {fixed: 'right', width: 400, align: 'center', toolbar: '#bar'}
             ]],
             page: true,
             url: '${rc.contextPath}/customer/findOnPage.go'
@@ -50,6 +51,8 @@
                 });
             } else if (obj.event === 'edit') {
                 alert('edit');
+            } else if (obj.event === 'showHistory') {
+                alert('showHistory');
             }
         });
         $('#reloadBtn').on('click', function () {
@@ -67,6 +70,7 @@
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">指派活动</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showHistory">查看参加过的活动</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

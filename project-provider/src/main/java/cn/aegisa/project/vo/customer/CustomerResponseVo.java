@@ -14,6 +14,7 @@ import lombok.Setter;
 public class CustomerResponseVo {
     private String id;
     private String nickname;
+    private String age;
     private String telephone;
     private String gender;
     private String address;

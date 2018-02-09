@@ -6,6 +6,7 @@ import cn.aegisa.project.dao.utils.Query;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.utils.IDNumberUtil;
+import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 import cn.aegisa.project.vo.customer.CustomerQueryVo;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -67,7 +69,17 @@ public class CustomerServiceImpl implements CustomerService {
             vo.setId(String.valueOf(info.getId()));
             vo.setNickname(info.getNickname());
             vo.setTelephone(info.getTelephone());
-            vo.setGender("--");
+            String idNumber = info.getIdNumber();
+            vo.setIdNumber(idNumber);
+            String age = IDNumberUtil.getAgeFromID(idNumber);
+            vo.setAge(age);
+            String gender = IDNumberUtil.getGender(idNumber);
+            vo.setGender(gender);
+            vo.setAddress(info.getAddress());
+            Date lastModifyTime = info.getLastModifyTime();
+            LocalDateTime localDateTime = LocalDateTimeUtil.dateToLocalDateTime(lastModifyTime);
+            vo.setLastModified(LocalDateTimeUtil.timeToString(localDateTime));
+            vo.setComment(info.getComment());
             list.add(vo);
         }
         response.setCount(count);
