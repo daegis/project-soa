@@ -3,8 +3,10 @@ package cn.aegisa.project.web.controller;
 import cn.aegisa.project.common.MessageResponse;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
+import cn.aegisa.project.vo.customer.CustomerQueryVo;
+import cn.aegisa.project.vo.customer.CustomerResponseVo;
 import com.alibaba.fastjson.JSON;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +36,12 @@ public class CustomerRestController {
             log.error(e.getMessage());
             return MessageResponse.fail(e.getMessage());
         }
+    }
+
+    @RequestMapping("/findOnPage")
+    public String customerListShow(CustomerQueryVo queryVo) {
+        log.info("传入的列表查询信息:{}", JSON.toJSONString(queryVo));
+        LayuiDataGridResponse<CustomerResponseVo> response = customerService.queryList(queryVo);
+        return JSON.toJSONString(response);
     }
 }

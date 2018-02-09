@@ -67,7 +67,7 @@
         //监听提交
         form.on('submit(submitBtn)', function (data) {
             $.ajax({
-                url: '/customer/add.go',
+                url: '${rc.contextPath}/customer/add.go',
                 type: 'post',
                 data: data.field,
                 dataType: 'json',
@@ -82,7 +82,7 @@
                             layer.closeAll();
                             $('#customerForm')[0].reset();
                         }, function () {
-                            window.location.href = '/';
+                            window.location.href = '${rc.contextPath}/';
                         });
                     } else {
                         doAlert(layer, data.message);

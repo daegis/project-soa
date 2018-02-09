@@ -5,6 +5,9 @@ import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.StrUtil;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
+import cn.aegisa.project.vo.customer.CustomerQueryVo;
+import cn.aegisa.project.vo.customer.CustomerResponseVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +35,16 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("成功保存了人员信息");
     }
 
+    @Override
+    public LayuiDataGridResponse<CustomerResponseVo> queryList(CustomerQueryVo queryVo) {
+
+
+        return null;
+    }
+
     private void paramsCheck(CustomerInfo customerInfo) throws Exception {
         if (!StrUtil.strCheckNotNull(customerInfo.getNickname())) {
-            throw new Exception("昵称不能为空");
+            throw new Exception("网名不能为空");
         }
         String telephone = customerInfo.getTelephone();
         if (!StrUtil.strCheckNotNull(telephone)) {

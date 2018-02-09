@@ -28,4 +28,11 @@ public class RedirectController {
         model.addAttribute("from", "userAdd");
         return "user/add";
     }
+
+    @RequestMapping("/userList")
+    public String toUserList(Model model) {
+        model.addAttribute("category", "user");
+        model.addAttribute("from", "userList");
+        return "user/list";
+    }
 }

@@ -1,6 +1,9 @@
 package cn.aegisa.project.service;
 
 import cn.aegisa.project.model.CustomerInfo;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
+import cn.aegisa.project.vo.customer.CustomerQueryVo;
+import cn.aegisa.project.vo.customer.CustomerResponseVo;
 
 /**
  * Using IntelliJ IDEA.
@@ -10,4 +13,6 @@ import cn.aegisa.project.model.CustomerInfo;
  */
 public interface CustomerService {
     void save(CustomerInfo customerInfo) throws Exception;
+
+    LayuiDataGridResponse<CustomerResponseVo> queryList(CustomerQueryVo queryVo);
 }
