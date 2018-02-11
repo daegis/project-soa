@@ -2,8 +2,8 @@ package cn.aegisa.project.service;
 
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
-import cn.aegisa.project.vo.customer.CustomerQueryVo;
-import cn.aegisa.project.vo.customer.CustomerResponseVo;
+import cn.aegisa.project.vo.CustomerQueryVo;
+import cn.aegisa.project.vo.CustomerResponseVo;
 
 /**
  * Using IntelliJ IDEA.

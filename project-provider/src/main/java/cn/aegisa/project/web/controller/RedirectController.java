@@ -26,13 +26,27 @@ public class RedirectController {
     public String toUserAdd(Model model) {
         model.addAttribute("category", "user");
         model.addAttribute("from", "userAdd");
-        return "user/add";
+        return "customer/add";
     }
 
     @RequestMapping("/userList")
     public String toUserList(Model model) {
         model.addAttribute("category", "user");
         model.addAttribute("from", "userList");
-        return "user/list";
+        return "customer/list";
+    }
+
+    @RequestMapping("/activityAdd")
+    public String toActivityAdd(Model model) {
+        model.addAttribute("category", "activity");
+        model.addAttribute("from", "activityAdd");
+        return "activity/add";
+    }
+
+    @RequestMapping("/activityList")
+    public String toActivityList(Model model) {
+        model.addAttribute("category", "activity");
+        model.addAttribute("from", "activityList");
+        return "activity/list";
     }
 }

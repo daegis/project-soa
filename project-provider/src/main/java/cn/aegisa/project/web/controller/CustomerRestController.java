@@ -4,8 +4,8 @@ import cn.aegisa.project.common.MessageResponse;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
-import cn.aegisa.project.vo.customer.CustomerQueryVo;
-import cn.aegisa.project.vo.customer.CustomerResponseVo;
+import cn.aegisa.project.vo.CustomerQueryVo;
+import cn.aegisa.project.vo.CustomerResponseVo;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HNAyd.xian
  * @date 2018/2/7 15:33
  */
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping("/customer")
 @Slf4j

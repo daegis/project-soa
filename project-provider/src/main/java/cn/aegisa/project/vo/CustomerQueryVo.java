@@ -1,5 +1,6 @@
-package cn.aegisa.project.vo.customer;
+package cn.aegisa.project.vo;
 
+import cn.aegisa.project.vo.BasePageRequestVo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +12,6 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class CustomerQueryVo {
-    private Integer page;
-    private Integer limit;
+public class CustomerQueryVo extends BasePageRequestVo {
     private String keyword;
 }

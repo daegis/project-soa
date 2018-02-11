@@ -12,11 +12,11 @@
                 <dd <#if from??&&from=='userList' >class="layui-this"</#if>><a href="/to/userList">列表</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">事件</a>
+        <li class="layui-nav-item<#if (category??&&category=='activity')> layui-this</#if>">
+            <a href="javascript:;">活动</a>
             <dl class="layui-nav-child">
-                <dd><a href="">添加</a></dd>
-                <dd><a href="">管理</a></dd>
+                <dd <#if from??&&from=='activityAdd' >class="layui-this"</#if>><a href="/to/activityAdd">添加</a></dd>
+                <dd <#if from??&&from=='activityList' >class="layui-this"</#if>><a href="/to/activityList">列表</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">

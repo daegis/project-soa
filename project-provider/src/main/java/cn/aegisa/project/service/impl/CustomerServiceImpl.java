@@ -1,16 +1,14 @@
 package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
-import cn.aegisa.project.dao.utils.PageFinder;
-import cn.aegisa.project.dao.utils.Query;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
-import cn.aegisa.project.vo.customer.CustomerQueryVo;
-import cn.aegisa.project.vo.customer.CustomerResponseVo;
+import cn.aegisa.project.vo.CustomerQueryVo;
+import cn.aegisa.project.vo.CustomerResponseVo;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

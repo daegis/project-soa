@@ -1,4 +1,4 @@
-package cn.aegisa.project.vo.customer;
+package cn.aegisa.project.vo;
 
 import lombok.Getter;
 import lombok.Setter;
