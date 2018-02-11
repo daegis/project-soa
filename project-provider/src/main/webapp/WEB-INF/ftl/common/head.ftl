@@ -3,13 +3,13 @@
 <div>
     <ul class="layui-nav">
         <li class="layui-nav-item<#if category??><#else> layui-this</#if>">
-            <a href="/to/main.go">首页</a>
+            <a href="/to/main">首页</a>
         </li>
         <li class="layui-nav-item<#if (category??&&category=='user')> layui-this</#if>">
             <a href="javascript:;">用户</a>
             <dl class="layui-nav-child">
-                <dd <#if from??&&from=='userAdd' >class="layui-this"</#if>><a href="/to/userAdd.go">添加</a></dd>
-                <dd <#if from??&&from=='userList' >class="layui-this"</#if>><a href="/to/userList.go">列表</a></dd>
+                <dd <#if from??&&from=='userAdd' >class="layui-this"</#if>><a href="/to/userAdd">添加</a></dd>
+                <dd <#if from??&&from=='userList' >class="layui-this"</#if>><a href="/to/userList">列表</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">

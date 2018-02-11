@@ -38,7 +38,7 @@
                 {fixed: 'right', width: 400, align: 'center', toolbar: '#bar'}
             ]],
             page: true,
-            url: '${rc.contextPath}/customer/findOnPage.go'
+            url: '${rc.contextPath}/customer/findOnPage'
         });
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data;

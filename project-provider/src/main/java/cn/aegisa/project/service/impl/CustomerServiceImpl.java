@@ -55,6 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
         Integer start = limit * (page - 1);
         params.put("start", start);
         params.put("limit", limit);
+        params.put("desc", "desc");
         String keyword = queryVo.getKeyword();
         if (StrUtil.strCheckNotNull(keyword)) {
             // keyword is not null or empty

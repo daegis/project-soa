@@ -31,6 +31,9 @@
             comment ,
             address) LIKE '%${keyword}%'
         </if>
+        <if test="desc != null and desc!=''">
+            ORDER BY id DESC
+        </if>
     </sql>
     <sql id="Base_Column_List">
         id ,
