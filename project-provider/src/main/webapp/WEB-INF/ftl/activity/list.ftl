@@ -18,15 +18,15 @@
             elem: '#dataTable',
             cols: [[
                 {field: 'id', title: 'ID', width: 50, align: 'center'},
-                {field: 'nickname', title: '活动名称', width: 300, align: 'center'},
-                {field: 'telephone', title: '活动日期', width: 120, align: 'center'},
-                {field: 'gender', title: '天数', width: 60, align: 'center', templet: '#sexTpl'},
-                {field: 'age', title: '价格', width: 60, align: 'center'},
-                {field: 'address', title: '当前活动人数', width: 60, align: 'center'},
-                {fixed: 'right', width: 400, align: 'center', toolbar: '#bar'}
+                {field: 'name', title: '活动名称', width: 300, align: 'center'},
+                {field: 'date', title: '活动日期', width: 120, align: 'center'},
+                {field: 'day', title: '天数', width: 120, align: 'center', templet: '#sexTpl'},
+                {field: 'price', title: '价格', width: 120, align: 'center'},
+                {field: 'currentCount', title: '当前活动人数', width: 120, align: 'center'},
+                {fixed: 'right', width: 260, align: 'center', toolbar: '#bar'}
             ]],
             page: true,
-            url: '${rc.contextPath}/customer/findOnPage'
+            url: '${rc.contextPath}/activity/findOnPage'
         });
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data;

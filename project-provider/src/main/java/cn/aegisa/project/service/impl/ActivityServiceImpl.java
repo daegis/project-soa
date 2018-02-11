@@ -5,6 +5,8 @@ import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.ActivityAddVo;
+import cn.aegisa.project.vo.ActivityResponseVo;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Using IntelliJ IDEA.
@@ -39,6 +43,30 @@ public class ActivityServiceImpl implements ActivityService {
         info.setActivityDate(dateObj);
         info.setCreateTime(new Date());
         commonService.save(info);
+    }
+
+    @Override
+    public LayuiDataGridResponse<ActivityResponseVo> queryList() {
+        LayuiDataGridResponse<ActivityResponseVo> response = new LayuiDataGridResponse<>();
+        List<ActivityResponseVo> voList = new LinkedList<>();
+        List<ActivityInfo> list = commonService.getList(ActivityInfo.class);
+        for (ActivityInfo info : list) {
+            ActivityResponseVo vo = new ActivityResponseVo();
+            vo.setId(String.valueOf(info.getId()));
+            vo.setDay(String.valueOf(info.getDayCount()));
+            vo.setName(info.getActivityName());
+            vo.setPrice(String.valueOf(info.getPrice()));
+            Date date = info.getActivityDate();
+            String dateStr = "--";
+            if (date != null) {
+                dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            }
+            vo.setDate(dateStr);
+            vo.setCurrentCount("--");
+            voList.add(vo);
+        }
+        response.setData(voList);
+        return response;
     }
 
     private void paramsCheck(ActivityAddVo addVo) throws Exception {

@@ -17,10 +17,11 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">活动日期</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date" placeholder="请输入真实姓名" autocomplete="off"
-                       class="layui-input">
+            <div class="layui-inline">
+                <label class="layui-form-label">日期选择</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date" autocomplete="off" class="layui-input">
+                </div>
             </div>
         </div>
         <div class="layui-form-item">
@@ -49,6 +50,10 @@
                 , layer = layui.layer
                 , $ = layui.jquery
                 , laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#date'
+        });
 
         form.on('submit(submitBtn)', function (data) {
             $.ajax({
