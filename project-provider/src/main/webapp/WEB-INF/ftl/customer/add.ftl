@@ -84,10 +84,16 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        layer.confirm('添加成功!', {
+                        layer.confirm('<#if (customer??&&customer.id??)>修改成功<#else>添加成功</#if>', {
                             btn: ['离开'] //按钮
                         }, function () {
+                            <#if (customer??&&customer.id??)>
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            parent.window.location.reload();
+                            <#else>
                             window.location.href = '${rc.contextPath}/to/userList';
+                            </#if>
                         });
                     } else {
                         doAlert(layer, data.message);
