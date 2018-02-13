@@ -1,8 +1,14 @@
 package cn.aegisa.project.web.controller;
 
+import cn.aegisa.project.dao.service.ICommonService;
+import cn.aegisa.project.model.CustomerInfo;
+import cn.aegisa.project.service.CustomerService;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -16,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/to")
 public class RedirectController {
+
+    @Autowired
+    private CustomerService customerService;
 
     @RequestMapping("/main")
     public String toWelcomePage() {
@@ -34,6 +43,17 @@ public class RedirectController {
         model.addAttribute("category", "user");
         model.addAttribute("from", "userList");
         return "customer/list";
+    }
+
+    @RequestMapping("/userEdit/{id}")
+    public String toUserEdit(Model model, @PathVariable Integer id) {
+        CustomerInfo customerInfo = customerService.getById(id);
+        model.addAttribute("category", "user");
+        model.addAttribute("from", "userEdit");
+        model.addAttribute("noHead", "no");
+        model.addAttribute("customer", customerInfo);
+        log.info("传入要修改的人员：{}", JSON.toJSONString(customerInfo));
+        return "customer/add";
     }
 
     @RequestMapping("/activityAdd")

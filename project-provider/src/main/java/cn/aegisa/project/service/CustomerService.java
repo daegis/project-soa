@@ -15,4 +15,6 @@ public interface CustomerService {
     void save(CustomerInfo customerInfo) throws Exception;
 
     LayuiDataGridResponse<CustomerResponseVo> queryList(CustomerQueryVo queryVo);
+
+    CustomerInfo getById(Integer id);
 }

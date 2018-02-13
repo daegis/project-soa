@@ -86,6 +86,11 @@ public class CustomerServiceImpl implements CustomerService {
         return response;
     }
 
+    @Override
+    public CustomerInfo getById(Integer id) {
+        return commonService.get(id, CustomerInfo.class);
+    }
+
     private void paramsCheck(CustomerInfo customerInfo) throws Exception {
         if (!StrUtil.strCheckNotNull(customerInfo.getNickname())) {
             throw new Exception("网名不能为空");
