@@ -1,5 +1,6 @@
 package cn.aegisa.project.service;
 
+import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.vo.ActivityAddVo;
 import cn.aegisa.project.vo.ActivityResponseVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
@@ -16,4 +17,6 @@ public interface ActivityService {
     void save(ActivityAddVo addVo) throws  Exception;
 
     LayuiDataGridResponse<ActivityResponseVo> queryList();
+
+    ActivityInfo getById(Integer id);
 }

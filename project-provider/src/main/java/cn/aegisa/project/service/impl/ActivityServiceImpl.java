@@ -33,6 +33,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public void save(ActivityAddVo addVo) throws Exception {
         paramsCheck(addVo);
+        Integer id = addVo.getId();
         ActivityInfo info = new ActivityInfo();
         info.setActivityName(addVo.getName());
         info.setCreateTime(new Date());
@@ -42,7 +43,14 @@ public class ActivityServiceImpl implements ActivityService {
         Date dateObj = new SimpleDateFormat("yyyy-MM-dd").parse(date);
         info.setActivityDate(dateObj);
         info.setCreateTime(new Date());
-        commonService.save(info);
+        if (id == null) {
+            log.info("存入新的活动记录");
+            commonService.save(info);
+        } else {
+            log.info("修改活动记录");
+            info.setId(id);
+            commonService.update(info);
+        }
     }
 
     @Override
@@ -67,6 +75,11 @@ public class ActivityServiceImpl implements ActivityService {
         }
         response.setData(voList);
         return response;
+    }
+
+    @Override
+    public ActivityInfo getById(Integer id) {
+        return commonService.get(id, ActivityInfo.class);
     }
 
     private void paramsCheck(ActivityAddVo addVo) throws Exception {

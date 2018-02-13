@@ -38,7 +38,15 @@
                     offset: '100px'
                 });
             } else if (obj.event === 'edit') {
-                alert('edit');
+                layer.open({
+                    type: 2,
+                    title: '修改人员信息',
+                    area: ['400px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    skin: 'layui-layer-rim',
+                    content: ['${rc.contextPath}/to/activityEdit/' + data.id, 'no']
+                });
             } else if (obj.event === 'showHistory') {
                 alert('showHistory');
             }
