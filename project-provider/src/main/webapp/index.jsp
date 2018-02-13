@@ -1,1 +1,1 @@
-<jsp:forward page="/to/main.go"/>
+<jsp:forward page="/to/main"/>

@@ -84,11 +84,8 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        layer.confirm('添加成功!还要继续添加吗？', {
-                            btn: ['继续', '离开'] //按钮
-                        }, function () {
-                            layer.closeAll();
-                            $('#customerForm')[0].reset();
+                        layer.confirm('添加成功!', {
+                            btn: ['离开'] //按钮
                         }, function () {
                             window.location.href = '${rc.contextPath}/to/userList';
                         });

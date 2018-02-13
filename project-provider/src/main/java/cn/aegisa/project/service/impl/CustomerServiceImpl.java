@@ -1,6 +1,7 @@
 package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
+import cn.aegisa.project.exception.DuplicatedIdNumberException;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.utils.IDNumberUtil;
@@ -32,10 +33,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void save(CustomerInfo customerInfo) throws Exception {
-        paramsCheck(customerInfo);
+        Integer id = customerInfo.getId();
+        try {
+            paramsCheck(customerInfo);
+        } catch (DuplicatedIdNumberException e) {
+            if (id == null) {
+                // 新增记录，不允许重复
+                throw e;
+            }
+        }
         customerInfo.setLastModifyTime(new Date());
-        commonService.save(customerInfo);
-        log.info("成功保存了人员信息");
+        if (id == null) {
+            log.info("新增人员信息");
+            commonService.save(customerInfo);
+        } else {
+            log.info("更新人员信息");
+            commonService.update(customerInfo);
+        }
     }
 
     @Override
@@ -109,7 +123,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
             Integer idCount = commonService.getBySqlId(CustomerInfo.class, "pageCount", "idNumber", idNumber);
             if (idCount != 0) {
-                throw new Exception("身份证号码冲突, 此人已存在");
+                throw new DuplicatedIdNumberException("身份证号码冲突, 此人已存在");
             }
         }
     }
