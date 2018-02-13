@@ -27,11 +27,11 @@
             cols: [[
                 {field: 'id', title: 'ID', width: 50, align: 'center'},
                 {field: 'nickname', title: '网名', width: 100, align: 'center'},
+                {field: 'name', title: '真实姓名', width: 90, align: 'center'},
                 {field: 'telephone', title: '手机号', width: 120, align: 'center'},
                 {field: 'gender', title: '性别', width: 60, align: 'center', templet: '#sexTpl'},
-                {field: 'age', title: '年龄', width: 60, align: 'center'},
+                {field: 'age', title: '年龄', width: 60, align: 'center',templet: '#ageTpl'},
                 {field: 'address', title: '地址', width: 120, align: 'center'},
-                {field: 'name', title: '真实姓名', width: 90, align: 'center'},
                 {field: 'idNumber', title: '身份证号', width: 185, align: 'center'},
                 {field: 'lastModified', title: '最后编辑时间', sort: true, width: 180, align: 'center'},
                 {field: 'comment', title: '备注信息', width: '180', align: 'center'},
@@ -87,6 +87,19 @@
     <span style="color: deeppink;">{{ d.gender }}</span>
     {{#  } else { }}
     {{ d.gender }}
+    {{#  } }}
+</script>
+<script type="text/html" id="ageTpl">
+    {{#  if(d.age === '-\-'){ }}
+    <span style="color: red">{{ d.age }}</span>
+    {{#  } else if(d.age >= 70){ }}
+    <span style="color: green">{{ d.age }}</span>
+    {{#  } else if(d.age >= 65){ }}
+    <span style="color: crimson">{{ d.age }}</span>
+    {{#  } else if(d.age >= 60){ }}
+    <span style="color: blue">{{ d.age }}</span>
+    {{#  } else { }}
+    {{ d.age }}
     {{#  } }}
 </script>
 </body>

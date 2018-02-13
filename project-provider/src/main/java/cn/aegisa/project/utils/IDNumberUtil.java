@@ -28,7 +28,7 @@ public abstract class IDNumberUtil {
 
     public static String getAgeFromID(String no) {
         if (!checkID(no)) {
-            return "--";
+            return "-\\-";
         }
         String dob = no.substring(6, 14);
         String yearString = dob.substring(0, 4);
@@ -60,7 +60,7 @@ public abstract class IDNumberUtil {
 
     public static String getDOB(String no) {
         if (!checkID(no)) {
-            return "--";
+            return "-/-";
         }
         String dob = no.substring(6, 14);
         String yearString = dob.substring(0, 4);
@@ -74,7 +74,7 @@ public abstract class IDNumberUtil {
 
     public static String getGender(String no) {
         if (!checkID(no)) {
-            return "--";
+            return "-/-";
         }
         char c = no.charAt(16);
         int gender = c - '0';

@@ -81,6 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerResponseVo vo = new CustomerResponseVo();
             vo.setId(String.valueOf(info.getId()));
             vo.setNickname(info.getNickname());
+            vo.setName(info.getRealName());
             vo.setTelephone(info.getTelephone());
             String idNumber = info.getIdNumber();
             vo.setIdNumber(idNumber);
