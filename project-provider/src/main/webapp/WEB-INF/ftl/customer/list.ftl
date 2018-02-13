@@ -35,7 +35,7 @@
                 {field: 'idNumber', title: '身份证号', width: 185, align: 'center'},
                 {field: 'lastModified', title: '最后编辑时间', sort: true, width: 180, align: 'center'},
                 {field: 'comment', title: '备注信息', width: '180', align: 'center'},
-                {title: '操作', width: 400, align: 'center', toolbar: '#bar'}
+                {title: '操作', width: 260, align: 'center', toolbar: '#bar'}
             ]],
             page: true,
             url: '${rc.contextPath}/customer/findOnPage'
@@ -78,7 +78,7 @@
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">指派活动</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showHistory">查看参加过的活动</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showHistory">历史活动</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
