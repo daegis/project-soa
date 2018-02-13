@@ -30,7 +30,7 @@
                 {field: 'name', title: '真实姓名', width: 90, align: 'center'},
                 {field: 'telephone', title: '手机号', width: 120, align: 'center'},
                 {field: 'gender', title: '性别', width: 60, align: 'center', templet: '#sexTpl'},
-                {field: 'age', title: '年龄', width: 60, align: 'center',templet: '#ageTpl'},
+                {field: 'age', title: '年龄', width: 60, align: 'center', templet: '#ageTpl'},
                 {field: 'address', title: '地址', width: 120, align: 'center'},
                 {field: 'idNumber', title: '身份证号', width: 185, align: 'center'},
                 {field: 'lastModified', title: '最后编辑时间', sort: true, width: 180, align: 'center'},
@@ -90,7 +90,7 @@
     {{#  } }}
 </script>
 <script type="text/html" id="ageTpl">
-    {{#  if(d.age === '-\-'){ }}
+    {{#  if(d.age === '- -'){ }}
     <span style="color: red">{{ d.age }}</span>
     {{#  } else if(d.age >= 70){ }}
     <span style="color: green">{{ d.age }}</span>
