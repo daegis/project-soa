@@ -25,7 +25,6 @@
                 {field: 'currentCount', title: '当前活动人数', width: 120, align: 'center'},
                 {fixed: 'right', width: 260, align: 'center', toolbar: '#bar'}
             ]],
-            page: true,
             url: '${rc.contextPath}/activity/findOnPage'
         });
         table.on('tool(dataTable)', function (obj) {

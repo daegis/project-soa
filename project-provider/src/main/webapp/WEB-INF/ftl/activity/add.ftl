@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="submitBtn">确认添加</button>
+            <button class="layui-btn" lay-submit="" lay-filter="submitBtn">确认</button>
         </div>
     </form>
 </div>

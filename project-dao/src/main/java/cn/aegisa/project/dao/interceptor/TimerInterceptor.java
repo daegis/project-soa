@@ -19,25 +19,26 @@ import java.util.Locale;
 import java.util.Properties;
 
 /**
- * Created by simple on 2017/3/27 15:48
- * SQL 执行时间拦截器
- * @since 1.0
+ * Using IntelliJ IDEA.
+ *
+ * @author HNAyd.xian
+ * @date 2018/2/11 13:39
  */
 @Intercepts(value = {
-        @Signature(type=Executor.class, method="update", args={MappedStatement.class,Object.class}),
-        @Signature(type=Executor.class, method="query",  args={MappedStatement.class,Object.class,RowBounds.class,ResultHandler.class,CacheKey.class,BoundSql.class}),
-        @Signature(type=Executor.class,method="query",   args={MappedStatement.class,Object.class,RowBounds.class,ResultHandler.class})
-                    })
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
+})
 public class TimerInterceptor implements Interceptor {
-    private Boolean showSql  = false;
-    private Long longQueryTimeMillis ;
+    private Boolean showSql = false;
+    private Long longQueryTimeMillis;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         long start = System.currentTimeMillis();
-        Object  returnValue = invocation.proceed();
+        Object returnValue = invocation.proceed();
         long end = System.currentTimeMillis();
-        if (showSql || (null != longQueryTimeMillis && (end - start) >= longQueryTimeMillis)){
+        if (showSql || (null != longQueryTimeMillis && (end - start) >= longQueryTimeMillis)) {
             MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
             Object parameter = null;
             if (invocation.getArgs().length > 1) {
@@ -52,7 +53,7 @@ public class TimerInterceptor implements Interceptor {
         return returnValue;
     }
 
-    private  String getSql(Configuration configuration, BoundSql boundSql, String sqlId, long time) {
+    private String getSql(Configuration configuration, BoundSql boundSql, String sqlId, long time) {
         String sql = showSql(configuration, boundSql);
         StringBuilder str = new StringBuilder(200);
         str.append(sqlId);
@@ -64,7 +65,7 @@ public class TimerInterceptor implements Interceptor {
         return str.toString();
     }
 
-    private  String getParameterValue(Object obj) {
+    private String getParameterValue(Object obj) {
         String value = null;
         if (obj instanceof String) {
             value = "'" + obj.toString() + "'";
@@ -81,7 +82,7 @@ public class TimerInterceptor implements Interceptor {
         return value;
     }
 
-    private  String showSql(Configuration configuration, BoundSql boundSql) {
+    private String showSql(Configuration configuration, BoundSql boundSql) {
         Object parameterObject = boundSql.getParameterObject();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
         String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
@@ -105,6 +106,7 @@ public class TimerInterceptor implements Interceptor {
         }
         return sql;
     }
+
     @Override
     public Object plugin(Object target) {
         return Plugin.wrap(target, this);
@@ -112,6 +114,7 @@ public class TimerInterceptor implements Interceptor {
 
     /**
      * 配置　plugin时配置的参数
+     *
      * @param properties
      */
     @Override

@@ -13,5 +13,13 @@
         <setting name="defaultExecutorType" value="SIMPLE"/>
         <setting name="defaultStatementTimeout" value="25000"/>
     </settings>
-
+    <typeHandlers>
+        <typeHandler handler="org.apache.ibatis.type.InstantTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.OffsetDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.OffsetTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.ZonedDateTimeTypeHandler"/>
+    </typeHandlers>
 </configuration>
