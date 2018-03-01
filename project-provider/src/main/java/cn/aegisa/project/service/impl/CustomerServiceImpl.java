@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw e;
             }
         }
-        customerInfo.setLastModifyTime(new Date());
+        customerInfo.setLastModifyTime(LocalDateTime.now());
         if (id == null) {
             log.info("新增人员信息");
             commonService.save(customerInfo);
@@ -90,8 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
             String gender = IDNumberUtil.getGender(idNumber);
             vo.setGender(gender);
             vo.setAddress(info.getAddress());
-            Date lastModifyTime = info.getLastModifyTime();
-            LocalDateTime localDateTime = LocalDateTimeUtil.dateToLocalDateTime(lastModifyTime);
+            LocalDateTime localDateTime = info.getLastModifyTime();
             vo.setLastModified(LocalDateTimeUtil.timeToString(localDateTime));
             vo.setComment(info.getComment());
             list.add(vo);

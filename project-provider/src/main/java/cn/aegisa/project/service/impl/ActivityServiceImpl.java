@@ -3,6 +3,7 @@ package cn.aegisa.project.service.impl;
 import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.service.ActivityService;
+import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.ActivityAddVo;
 import cn.aegisa.project.vo.ActivityResponseVo;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -37,13 +40,12 @@ public class ActivityServiceImpl implements ActivityService {
         Integer id = addVo.getId();
         ActivityInfo info = new ActivityInfo();
         info.setActivityName(addVo.getName());
-        info.setCreateTime(new Date());
+        info.setCreateTime(LocalDateTime.now());
         info.setDayCount(addVo.getDayCount());
         info.setPrice(addVo.getPrice());
         String date = addVo.getDate();
-        Date dateObj = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        LocalDateTime dateObj = LocalDateTimeUtil.fromString(date);
         info.setActivityDate(dateObj);
-        info.setCreateTime(new Date());
         if (id == null) {
             log.info("存入新的活动记录");
             commonService.save(info);
@@ -65,10 +67,10 @@ public class ActivityServiceImpl implements ActivityService {
             vo.setDay(String.valueOf(info.getDayCount()));
             vo.setName(info.getActivityName());
             vo.setPrice(String.valueOf(info.getPrice()));
-            Date date = info.getActivityDate();
+            LocalDate activityDate = info.getActivityDate().toLocalDate();
             String dateStr = "--";
-            if (date != null) {
-                dateStr = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            if (activityDate != null) {
+                dateStr = LocalDateTimeUtil.timeToString(activityDate);
             }
             vo.setDate(dateStr);
             vo.setCurrentCount("--");
