@@ -122,4 +122,18 @@
 		</foreach>
 	</select>
 
+    <select id="selectWhereCustomerNotIn" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM activity_info info
+        WHERE info.id NOT IN(
+        SELECT
+        j.aid
+        FROM
+        join_info j
+        WHERE
+        j.cid = #{cid}
+        )
+    </select>
+
 </mapper>

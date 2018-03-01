@@ -6,6 +6,7 @@ import cn.aegisa.project.vo.ActivityResponseVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * Using IntelliJ IDEA.
@@ -19,4 +20,6 @@ public interface ActivityService {
     LayuiDataGridResponse<ActivityResponseVo> queryList();
 
     ActivityInfo getById(Integer id);
+
+    List<ActivityInfo> getListCustomerNotIn(Integer id);
 }

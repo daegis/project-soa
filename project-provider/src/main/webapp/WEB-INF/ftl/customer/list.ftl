@@ -43,7 +43,15 @@
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                window.location = "${rc.contextPath}/customerAction_associateActivity.action?cid=" + data.cid;
+                layer.open({
+                    type: 2,
+                    title: '指派活动',
+                    area: ['400px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    skin: 'layui-layer-rim',
+                    content: ['${rc.contextPath}/to/join/customer/' + data.id, 'no']
+                });
             } else if (obj.event === 'del') {
                 layer.alert("为保证数据安全, 页面不提供删除功能. 如需删除具体人员或活动, 请将人员或者活动的id告知管理员", {
                     icon: 0,

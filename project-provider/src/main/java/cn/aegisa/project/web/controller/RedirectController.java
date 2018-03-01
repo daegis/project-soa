@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 
 /**
  * Using IntelliJ IDEA.
@@ -84,5 +86,15 @@ public class RedirectController {
         model.addAttribute("category", "activity");
         model.addAttribute("from", "activityList");
         return "activity/list";
+    }
+
+    @RequestMapping("/join/customer/{id}")
+    public String toCustomerJoin(@PathVariable Integer id, Model model) {
+        CustomerInfo customerInfo = customerService.getById(id);
+        List<ActivityInfo> activityInfoList = activityService.getListCustomerNotIn(id);
+        model.addAttribute("customer", customerInfo);
+        model.addAttribute("activities", activityInfoList);
+        log.info(JSON.toJSONString(model));
+        return "join/joinInfo";
     }
 }
