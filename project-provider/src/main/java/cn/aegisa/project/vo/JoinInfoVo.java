@@ -20,4 +20,11 @@ public class JoinInfoVo {
     private Integer prepay;
     private String payMethod;
     private String joinComment;
+
+    private String nickname;
+    private String realName;
+    private String gender;
+    private String age;
+    private String restPay;
+    private Integer busSeat;
 }
