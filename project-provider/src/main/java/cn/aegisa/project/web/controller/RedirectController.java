@@ -81,7 +81,12 @@ public class RedirectController {
     public String toActivityDetail(Model model, @PathVariable Integer id) {
         model.addAttribute("category", "activity");
         model.addAttribute("from", "activityDetail");
-        model.addAttribute("id", id);
+        ActivityInfo activityInfo = activityService.getById(id);
+        model.addAttribute("activity", activityInfo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        model.addAttribute("formatter", formatter);
+        // 获取参加当前活动的人员信息
+
         return "activity/detail";
     }
 
