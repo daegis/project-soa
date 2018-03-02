@@ -60,7 +60,7 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <import resource="classpath*:/config/spring_task.xml"/>
+    <!--<import resource="classpath*:/config/spring_task.xml"/>-->
     <import resource="classpath*:/config/spring_db_model.xml"/>
-    <import resource="classpath*:/config/spring_api.xml"/>
+    <!--<import resource="classpath*:/config/spring_api.xml"/>-->
 </beans>

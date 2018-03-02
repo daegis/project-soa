@@ -12,7 +12,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class JoinInfoVo {
+    private Integer id;
     private Integer aid;
+    private Integer cid;
     private String joinDate;
     private Integer discount;
     private Integer prepay;

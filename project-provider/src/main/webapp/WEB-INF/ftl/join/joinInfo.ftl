@@ -17,6 +17,7 @@
 </fieldset>
 <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
     <form class="layui-form layui-form-pane" action="javascript:;" id="joinForm">
+        <input type="hidden" name="cid" value="<#if customer??&&customer.id??>${customer.id}</#if>">
         <div class="layui-form-item">
             <label class="layui-form-label">选择活动</label>
             <div class="layui-input-inline">

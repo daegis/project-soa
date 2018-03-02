@@ -1,5 +1,7 @@
 package cn.aegisa.project.service;
 
+import cn.aegisa.project.vo.JoinInfoVo;
+
 /**
  * Using IntelliJ IDEA.
  *
@@ -7,4 +9,5 @@ package cn.aegisa.project.service;
  * @date 2018/3/1 17:42
  */
 public interface JoinService {
+    void saveJoin(JoinInfoVo infoVo);
 }
