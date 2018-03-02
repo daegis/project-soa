@@ -191,4 +191,15 @@
         aid=#{aid}
     </select>
 
+    <select id="queryCountOfJoin" resultType="int" parameterType="map">
+        SELECT
+        count(1)
+        FROM
+        join_info
+        WHERE
+        aid=#{aid}
+        AND
+        cid=#{cid}
+    </select>
+
 </mapper>

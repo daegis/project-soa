@@ -23,7 +23,7 @@
                 {field: 'day', title: '天数', width: 120, align: 'center', templet: '#sexTpl'},
                 {field: 'price', title: '价格', width: 120, align: 'center'},
                 {field: 'currentCount', title: '当前活动人数', width: 120, align: 'center'},
-                {fixed: 'right', width: 260, align: 'center', toolbar: '#bar'}
+                {width: 260, align: 'center', toolbar: '#bar'}
             ]],
             url: '${rc.contextPath}/activity/findOnPage'
         });

@@ -34,8 +34,11 @@ public class JoinServiceImpl implements JoinService {
         if (joinId == null) {
             // 新增的记录
             JoinInfo joinInfo = new JoinInfo();
-            joinInfo.setAid(infoVo.getAid());
-            joinInfo.setCid(infoVo.getCid());
+            Integer aid = infoVo.getAid();
+            Integer cid = infoVo.getCid();
+            checkJoinInfo(aid, cid);
+            joinInfo.setAid(aid);
+            joinInfo.setCid(cid);
             joinInfo.setJoinComment(infoVo.getJoinComment());
             String payMethod = infoVo.getPayMethod();
             if (StrUtil.strCheckNotNull(payMethod)) {
@@ -66,6 +69,19 @@ public class JoinServiceImpl implements JoinService {
         } else {
             // 修改的记录
 
+        }
+    }
+
+    private void checkJoinInfo(Integer aid, Integer cid) {
+        if (aid == null) {
+            throw new RuntimeException("当前没有可以参加的活动");
+        }
+        if (cid == null) {
+            throw new RuntimeException("人员信息异常");
+        }
+        Integer count = commonService.getBySqlId(JoinInfo.class, "queryCountOfJoin", "aid", aid, "cid", cid);
+        if (count > 0) {
+            throw new RuntimeException("此人已经参加了此活动，不能再次添加");
         }
     }
 
