@@ -2,6 +2,8 @@ package cn.aegisa.project.service;
 
 import cn.aegisa.project.vo.JoinInfoVo;
 
+import java.util.List;
+
 /**
  * Using IntelliJ IDEA.
  *
@@ -10,4 +12,6 @@ import cn.aegisa.project.vo.JoinInfoVo;
  */
 public interface JoinService {
     void saveJoin(JoinInfoVo infoVo);
+
+    List<String> getCustomerHistory(Integer cid);
 }

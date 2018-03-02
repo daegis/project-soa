@@ -2,7 +2,9 @@ package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
+import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.service.ActivityService;
+import cn.aegisa.project.service.JoinService;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.ActivityAddVo;
@@ -73,7 +75,13 @@ public class ActivityServiceImpl implements ActivityService {
                 dateStr = LocalDateTimeUtil.timeToString(activityDate);
             }
             vo.setDate(dateStr);
-            vo.setCurrentCount("--");
+            // 查询当前活动的人数
+            Integer customerCount = commonService.getBySqlId(JoinInfo.class, "queryCustomerCountInActivity", "aid", info.getId());
+            if (customerCount != null) {
+                vo.setCurrentCount(String.valueOf(customerCount));
+            } else {
+                vo.setCurrentCount("--");
+            }
             voList.add(vo);
         }
         Collections.reverse(voList);

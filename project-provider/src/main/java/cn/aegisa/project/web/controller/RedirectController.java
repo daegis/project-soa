@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -70,6 +71,8 @@ public class RedirectController {
         model.addAttribute("from", "activityEdit");
         model.addAttribute("noHead", "no");
         model.addAttribute("activity", activityInfo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        model.addAttribute("formatter", formatter);
         log.info("传入要修改的活动：{}", JSON.toJSONString(activityInfo));
         return "activity/add";
     }

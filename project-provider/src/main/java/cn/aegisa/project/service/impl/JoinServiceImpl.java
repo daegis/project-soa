@@ -1,6 +1,7 @@
 package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
+import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.service.JoinService;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Using IntelliJ IDEA.
@@ -50,5 +52,10 @@ public class JoinServiceImpl implements JoinService {
             // 修改的记录
 
         }
+    }
+
+    @Override
+    public List<String> getCustomerHistory(Integer cid) {
+        return commonService.getListBySqlId(CustomerInfo.class, "getHistoryActivity", "cid", cid);
     }
 }

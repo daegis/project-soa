@@ -167,4 +167,21 @@
         limit #{start},#{limit}
     </select>
 
+    <select id="getHistoryActivity" resultType="java.lang.String" parameterType="map">
+        SELECT
+        ainfo.activity_name
+        FROM
+        activity_info ainfo
+        WHERE
+        ainfo.id
+        IN (
+          SELECT
+          jinfo.aid
+          FROM
+          join_info jinfo
+          WHERE
+          jinfo.cid = #{cid}
+        )
+    </select>
+
 </mapper>

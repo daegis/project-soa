@@ -19,8 +19,9 @@
 <table id="dataTable" lay-filter="dataTable"></table>
 <#include "../common/util.ftl"/>
 <script>
-    layui.use(['table', 'jquery'], function () {
+    layui.use(['table', 'jquery', 'layer'], function () {
         var $ = layui.jquery;
+        var layer = layui.layer;
         var table = layui.table;
         var tableIns = table.render({
             elem: '#dataTable',
@@ -68,7 +69,20 @@
                     content: ['${rc.contextPath}/to/userEdit/' + data.id, 'no']
                 });
             } else if (obj.event === 'showHistory') {
-                alert('showHistory');
+                $.ajax({
+                    url: '${rc.contextPath}/customer/showHistory',
+                    type: 'post',
+                    data: {
+                        cid: data.id
+                    },
+                    dataType: 'json',
+                    error: function () {
+                        doAlert(layer, "服务器连接失败");
+                    },
+                    success: function (data) {
+                        doAlert(layer, data.message);
+                    }
+                });
             }
         });
         $('#reloadBtn').on('click', function () {

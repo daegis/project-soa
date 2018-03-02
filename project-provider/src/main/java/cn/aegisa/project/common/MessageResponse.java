@@ -32,6 +32,10 @@ public class MessageResponse implements Serializable {
         return JSON.toJSONString(new MessageResponse(true));
     }
 
+    public static String success(String message) {
+        return JSON.toJSONString(new MessageResponse(true, message));
+    }
+
     public static String fail(String message) {
         return JSON.toJSONString(new MessageResponse(false, message));
     }
