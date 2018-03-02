@@ -38,7 +38,7 @@
                 <label class="layui-form-label">报名日期</label>
                 <div class="layui-input-inline">
                     <input type="text" name="joinDate" id="date" autocomplete="off"
-                           placeholder="请选择活动时间" class="layui-input">
+                           placeholder="不填写默认为今天" class="layui-input">
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">折扣</label>
                 <div class="layui-input-inline">
-                    <input type="tel" name="discount" placeholder="￥" autocomplete="off"
+                    <input type="tel" name="discount" placeholder="不填写默认为0" autocomplete="off"
                            class="layui-input">
                 </div>
             </div>
@@ -55,7 +55,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">预付款</label>
                 <div class="layui-input-inline">
-                    <input type="tel" name="prepay" placeholder="￥" autocomplete="off"
+                    <input type="tel" name="prepay" placeholder="不填写默认为0" autocomplete="off"
                            class="layui-input">
                 </div>
             </div>
@@ -64,7 +64,7 @@
             <label class="layui-form-label">付款方式</label>
             <div class="layui-input-block">
                 <select name="payMethod">
-                    <option value="">请选择付款方式</option>
+                    <option value="">不选择为未付款</option>
                     <optgroup label="常用">
                         <option value="微信">微信</option>
                         <option value="支付宝">支付宝</option>

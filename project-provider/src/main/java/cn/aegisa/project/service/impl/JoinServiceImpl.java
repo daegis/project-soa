@@ -36,10 +36,25 @@ public class JoinServiceImpl implements JoinService {
             JoinInfo joinInfo = new JoinInfo();
             joinInfo.setAid(infoVo.getAid());
             joinInfo.setCid(infoVo.getCid());
-            joinInfo.setDiscount(infoVo.getDiscount());
             joinInfo.setJoinComment(infoVo.getJoinComment());
-            joinInfo.setPayMethod(infoVo.getPayMethod());
-            joinInfo.setPrepay(infoVo.getPrepay());
+            String payMethod = infoVo.getPayMethod();
+            if (StrUtil.strCheckNotNull(payMethod)) {
+                joinInfo.setPayMethod(payMethod);
+            } else {
+                joinInfo.setPayMethod("未付款");
+            }
+            Integer discount = infoVo.getDiscount();
+            if (discount == null) {
+                joinInfo.setDiscount(0);
+            } else {
+                joinInfo.setDiscount(discount);
+            }
+            Integer prepay = infoVo.getPrepay();
+            if (prepay == null) {
+                joinInfo.setPrepay(0);
+            } else {
+                joinInfo.setPrepay(prepay);
+            }
             joinInfo.setLastModifyTime(LocalDateTime.now());
             String joinDate = infoVo.getJoinDate();
             if (StrUtil.strCheckNotNull(joinDate)) {
