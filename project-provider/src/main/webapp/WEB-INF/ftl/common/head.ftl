@@ -17,6 +17,7 @@
             <dl class="layui-nav-child">
                 <dd <#if from??&&from=='activityAdd' >class="layui-this"</#if>><a href="/to/activityAdd">添加</a></dd>
                 <dd <#if from??&&from=='activityList' >class="layui-this"</#if>><a href="/to/activityList">列表</a></dd>
+                <dd <#if from??&&from=='activityDetail' >class="layui-this"</#if>><a href="javascript:;">详情</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
