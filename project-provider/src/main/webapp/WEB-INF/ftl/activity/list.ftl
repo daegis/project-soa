@@ -30,7 +30,7 @@
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                window.location = "${rc.contextPath}/customerAction_associateActivity.action?cid=" + data.cid;
+                window.location = "${rc.contextPath}/to/activityDetail/" + data.id;
             } else if (obj.event === 'del') {
                 layer.alert("为保证数据安全, 页面不提供删除功能. 如需删除具体人员或活动, 请将人员或者活动的id告知管理员", {
                     icon: 0,

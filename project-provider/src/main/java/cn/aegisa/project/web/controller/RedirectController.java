@@ -77,6 +77,14 @@ public class RedirectController {
         return "activity/add";
     }
 
+    @RequestMapping("/activityDetail/{id}")
+    public String toActivityDetail(Model model, @PathVariable Integer id) {
+        model.addAttribute("category", "activity");
+        model.addAttribute("from", "activityDetail");
+        model.addAttribute("id", id);
+        return "activity/detail";
+    }
+
     @RequestMapping("/activityAdd")
     public String toActivityAdd(Model model) {
         model.addAttribute("category", "activity");
