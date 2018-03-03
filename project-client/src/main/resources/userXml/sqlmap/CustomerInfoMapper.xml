@@ -147,11 +147,11 @@
         <include refid="Base_Where"/>
     </select>
 
-    <select id="selectByIds" resultMap="BaseResultMap">
+    <select id="selectByIds" resultMap="BaseResultMap" parameterType="map">
         select
         <include refid="Base_Column_List"/>
         from customer_info where id in
-        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="idList" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

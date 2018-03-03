@@ -1,19 +1,28 @@
 package cn.aegisa.project.service.impl;
 
 import cn.aegisa.project.dao.service.ICommonService;
+import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.model.JoinInfo;
+import cn.aegisa.project.service.ActivityService;
+import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.service.JoinService;
+import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.JoinInfoVo;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Using IntelliJ IDEA.
@@ -27,6 +36,12 @@ public class JoinServiceImpl implements JoinService {
 
     @Autowired
     private ICommonService commonService;
+
+    @Autowired
+    private ActivityService activityService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @Override
     public void saveJoin(JoinInfoVo infoVo) {
@@ -88,5 +103,57 @@ public class JoinServiceImpl implements JoinService {
     @Override
     public List<String> getCustomerHistory(Integer cid) {
         return commonService.getListBySqlId(CustomerInfo.class, "getHistoryActivity", "cid", cid);
+    }
+
+    @Override
+    public LayuiDataGridResponse<JoinInfoVo> queryCustomerInActivity(Integer id) {
+        LayuiDataGridResponse<JoinInfoVo> response = new LayuiDataGridResponse<>();
+        ActivityInfo activityInfo = activityService.getById(id);
+        Integer activityPrice = activityInfo.getPrice();
+        List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", id);
+        // 参加该活动的人员id集合
+        List<Integer> customerIdList = joinInfoList.stream().map(JoinInfo::getCid).collect(Collectors.toList());
+        List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
+        Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
+        List<JoinInfoVo> data = new LinkedList<>();
+        for (JoinInfo joinInfo : joinInfoList) {
+            // 对应每一条参团信息
+            Integer cid = joinInfo.getCid();
+            CustomerInfo customerInfo = mappingCustomer.get(cid);
+            JoinInfoVo vo = new JoinInfoVo();
+            vo.setId(joinInfo.getId());
+            vo.setNickname(customerInfo.getNickname());
+            vo.setRealName(customerInfo.getRealName());
+            LocalDateTime joinDate = joinInfo.getJoinDate();
+            if (joinDate != null) {
+                vo.setJoinDate(LocalDateTimeUtil.timeToString(joinDate.toLocalDate()));
+            }
+            String idNumber = customerInfo.getIdNumber();
+            vo.setGender(IDNumberUtil.getGender(idNumber));
+            vo.setAge(IDNumberUtil.getAgeFromID(idNumber));
+            Integer discount = joinInfo.getDiscount();
+            Integer prepay = joinInfo.getPrepay();
+            int restPay = activityPrice - prepay - discount;
+            vo.setDiscount(discount);
+            vo.setPrepay(prepay);
+            vo.setPayMethod(joinInfo.getPayMethod());
+            vo.setRestPay(String.valueOf(restPay));
+            vo.setBusSeat(joinInfo.getBusSeat());
+            vo.setJoinComment(joinInfo.getJoinComment());
+            data.add(vo);
+        }
+        response.setData(data);
+        response.setCount(data.size());
+        return response;
+    }
+
+    private Map<Integer, CustomerInfo> mappingCustomerList(List<CustomerInfo> customerInfoList) {
+        Map<Integer, CustomerInfo> result = new LinkedHashMap<>();
+        if (customerInfoList != null) {
+            for (CustomerInfo customerInfo : customerInfoList) {
+                result.put(customerInfo.getId(), customerInfo);
+            }
+        }
+        return result;
     }
 }

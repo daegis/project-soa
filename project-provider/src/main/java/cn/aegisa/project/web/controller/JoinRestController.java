@@ -39,7 +39,7 @@ public class JoinRestController {
 
     @RequestMapping("/customers/{id}")
     public String queryCustomersInActivity(@PathVariable Integer id) {
-        System.out.println(id);
-        return ":";
+        LayuiDataGridResponse<JoinInfoVo> result = joinService.queryCustomerInActivity(id);
+        return JSON.toJSONString(result);
     }
 }

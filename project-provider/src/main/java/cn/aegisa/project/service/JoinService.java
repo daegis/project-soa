@@ -1,6 +1,7 @@
 package cn.aegisa.project.service;
 
 import cn.aegisa.project.vo.JoinInfoVo;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface JoinService {
     void saveJoin(JoinInfoVo infoVo);
 
     List<String> getCustomerHistory(Integer cid);
+
+    LayuiDataGridResponse<JoinInfoVo> queryCustomerInActivity(Integer id);
 }

@@ -59,11 +59,11 @@
         table.render({
             elem: '#dataTable',
             cols: [[
-                {field: 'customerNickname', title: '昵称', width: 120, align: 'center'}
-                , {field: 'customerName', title: '姓名', width: 90, align: 'center'}
-                , {field: 'joinTime', title: '报名日期', sort: true, width: 120, align: 'center'}
-                , {field: 'customerGender', title: '性别', sort: true, width: 75, align: 'center', templet: '#genderTpl'}
-                , {field: 'customerAge', title: '年龄', sort: true, width: 75, align: 'center', templet: '#ageTpl'}
+                {field: 'nickname', title: '昵称', width: 120, align: 'center'}
+                , {field: 'realName', title: '姓名', width: 90, align: 'center'}
+                , {field: 'joinDate', title: '报名日期', sort: true, width: 120, align: 'center'}
+                , {field: 'gender', title: '性别', sort: true, width: 75, align: 'center', templet: '#genderTpl'}
+                , {field: 'age', title: '年龄', sort: true, width: 75, align: 'center', templet: '#ageTpl'}
                 , {field: 'discount', title: '折扣', width: 90, align: 'center'}
                 , {field: 'prepay', title: '预付', width: 90, align: 'center'}
                 , {field: 'payMethod', title: '方式', sort: true, width: 120, align: 'center', templet: '#methodTpl'}
@@ -77,7 +77,7 @@
                     style: 'cursor: pointer;',
                     event: 'setSeat'
                 }
-                , {field: 'jnote', title: '备注信息', width: 120, align: 'center'}
+                , {field: 'joinComment', title: '备注信息', width: 120, align: 'center'}
                 , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
             ]],
             url: '/join/customers/${activity.id}'
@@ -142,39 +142,30 @@
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-mini" lay-event="detail">活动信息</a>
-    <a class="layui-btn layui-btn-mini" lay-event="edit">个人信息</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">从活动中移除</a>
-</script>
-<script type="text/html" id="methodTpl">
-    {{#  if(d.payMethod === '未付款'){ }}
-    <span style="color: red">{{ d.payMethod }}</span>
-    {{#  } else if(d.payMethod === undefined){ }}
-    <span style="color: dodgerblue">{{ '需要更新' }}</span>
-    {{#  } else { }}
-    {{ d.payMethod }}
-    {{#  } }}
+    <a class="layui-btn layui-btn-xs" lay-event="detail">活动信息</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">个人信息</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">从活动中移除</a>
 </script>
 <script type="text/html" id="genderTpl">
-    {{#  if(d.customerGender === '错ID'){ }}
-    <span style="color: red">{{ '非法ID' }}</span>
-    {{#  } else if(d.customerGender === '女'){ }}
-    <span style="color: deeppink">{{ d.customerGender }}</span>
+    {{#  if(d.gender === '错ID'){ }}
+    <span style="color: red">{{ d.gender }}</span>
+    {{#  } else if(d.gender === '女'){ }}
+    <span style="color: deeppink">{{ d.gender }}</span>
     {{#  } else { }}
-    {{ d.customerGender }}
+    {{ d.gender }}
     {{#  } }}
 </script>
 <script type="text/html" id="ageTpl">
-    {{#  if(d.customerAge === '非法ID'){ }}
-    <span style="color: red">{{ d.customerAge }}</span>
-    {{#  } else if(d.customerAge >= 70){ }}
-    <span style="color: green">{{ d.customerAge }}</span>
-    {{#  } else if(d.customerAge >= 65){ }}
-    <span style="color: crimson">{{ d.customerAge }}</span>
-    {{#  } else if(d.customerAge >= 60){ }}
-    <span style="color: blue">{{ d.customerAge }}</span>
+    {{#  if(d.age === '非法ID'){ }}
+    <span style="color: red">{{ d.age }}</span>
+    {{#  } else if(d.age >= 70){ }}
+    <span style="color: green">{{ d.age }}</span>
+    {{#  } else if(d.age >= 65){ }}
+    <span style="color: crimson">{{ d.age }}</span>
+    {{#  } else if(d.age >= 60){ }}
+    <span style="color: blue">{{ d.age }}</span>
     {{#  } else { }}
-    {{ d.customerAge }}
+    {{ d.age }}
     {{#  } }}
 </script>
 
