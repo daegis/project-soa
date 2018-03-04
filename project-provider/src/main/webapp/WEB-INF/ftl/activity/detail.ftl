@@ -1,3 +1,4 @@
+<#-- @ftlvariable name="count" type="java.lang.Number" -->
 <#-- @ftlvariable name="rc" type="javax.servlet.http.HttpServletRequest" -->
 <#-- @ftlvariable name="activity" type="cn.aegisa.project.model.ActivityInfo" -->
 <#-- @ftlvariable name="formatter" type="java.time.format.DateTimeFormatter" -->
@@ -37,7 +38,7 @@
             <td>${activity.activityName}</td>
             <td>${formatter.format(activity.activityDate)}</td>
             <td>${activity.dayCount?c}</td>
-            <td>--</td>
+            <td>${count}</td>
             <td>${activity.price}</td>
         </tr>
         </tbody>
@@ -92,7 +93,7 @@
             if (obj.event === 'setSeat') {
                 layer.prompt({
                     formType: 0
-                    , title: '设置名字为 [' + data.customerName + '](' + data.customerNickname + ') 的用户的座位号'
+                    , title: '设置名字为 [' + data.realName + '](' + data.nickname + ') 的用户的座位号'
                     , value: ''
                 }, function (value, index) {
                     $.ajax({
@@ -118,7 +119,7 @@
             if (layEvent === 'detail') { //查看
                 window.location = "/joinAction_update.action?jid=" + data.jid;
             } else if (layEvent === 'del') { //删除
-                layer.confirm('真的要从当前活动中移除人员【' + data.customerNickname + '(' + data.customerName + ')】吗?请注意, 从活动中移除一位成员并不会从人员列表中移除这个人, 稍后可以在其他活动中重新添加这个人员.', function (index) {
+                layer.confirm('真的要从当前活动中移除人员【' + data.realName + '(' + data.nickname + ')】吗?请注意, 从活动中移除一位成员并不会从人员列表中移除这个人, 稍后可以在其他活动中重新添加这个人员.', function (index) {
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
@@ -135,7 +136,15 @@
                     })
                 });
             } else if (layEvent === 'edit') { //编辑
-                window.location = "/customerAction_update?cid=" + data.customerCid;
+                layer.open({
+                    type: 2,
+                    title: '修改人员信息',
+                    area: ['400px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    skin: 'layui-layer-rim',
+                    content: ['${rc.contextPath}/to/userEdit/' + data.cid, 'no']
+                });
             }
         });
     });
@@ -147,7 +156,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">从活动中移除</a>
 </script>
 <script type="text/html" id="genderTpl">
-    {{#  if(d.gender === '错ID'){ }}
+    {{#  if(d.gender === '- -'){ }}
     <span style="color: red">{{ d.gender }}</span>
     {{#  } else if(d.gender === '女'){ }}
     <span style="color: deeppink">{{ d.gender }}</span>
@@ -156,7 +165,7 @@
     {{#  } }}
 </script>
 <script type="text/html" id="ageTpl">
-    {{#  if(d.age === '非法ID'){ }}
+    {{#  if(d.age === '- -'){ }}
     <span style="color: red">{{ d.age }}</span>
     {{#  } else if(d.age >= 70){ }}
     <span style="color: green">{{ d.age }}</span>

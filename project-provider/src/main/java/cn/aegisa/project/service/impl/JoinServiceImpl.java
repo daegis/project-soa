@@ -122,6 +122,7 @@ public class JoinServiceImpl implements JoinService {
             CustomerInfo customerInfo = mappingCustomer.get(cid);
             JoinInfoVo vo = new JoinInfoVo();
             vo.setId(joinInfo.getId());
+            vo.setCid(cid);
             vo.setNickname(customerInfo.getNickname());
             vo.setRealName(customerInfo.getRealName());
             LocalDateTime joinDate = joinInfo.getJoinDate();

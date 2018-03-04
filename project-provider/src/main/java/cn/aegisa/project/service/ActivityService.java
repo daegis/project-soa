@@ -22,4 +22,6 @@ public interface ActivityService {
     ActivityInfo getById(Integer id);
 
     List<ActivityInfo> getListCustomerNotIn(Integer id);
+
+    Integer queryCustomerCount(Integer id);
 }

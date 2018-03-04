@@ -99,6 +99,11 @@ public class ActivityServiceImpl implements ActivityService {
         return commonService.getListBySqlId(ActivityInfo.class, "selectWhereCustomerNotIn", "cid", id);
     }
 
+    @Override
+    public Integer queryCustomerCount(Integer id) {
+        return commonService.getBySqlId(JoinInfo.class, "queryCustomerCountInActivity", "aid", id);
+    }
+
     private void paramsCheck(ActivityAddVo addVo) throws Exception {
         String date = addVo.getDate();
         if (!StrUtil.strCheckNotNull(date)) {

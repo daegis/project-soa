@@ -82,6 +82,8 @@ public class RedirectController {
         model.addAttribute("category", "activity");
         model.addAttribute("from", "activityDetail");
         ActivityInfo activityInfo = activityService.getById(id);
+        Integer count = activityService.queryCustomerCount(id);
+        model.addAttribute("count", count);
         model.addAttribute("activity", activityInfo);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         model.addAttribute("formatter", formatter);
