@@ -104,6 +104,11 @@ public class ActivityServiceImpl implements ActivityService {
         return commonService.getBySqlId(JoinInfo.class, "queryCustomerCountInActivity", "aid", id);
     }
 
+    @Override
+    public List<ActivityInfo> getAll() {
+        return commonService.getList(ActivityInfo.class);
+    }
+
     private void paramsCheck(ActivityAddVo addVo) throws Exception {
         String date = addVo.getDate();
         if (!StrUtil.strCheckNotNull(date)) {

@@ -1,3 +1,5 @@
+<#-- @ftlvariable name="activities" type="java.util.List" -->
+<#-- @ftlvariable name="a" type="cn.aegisa.project.model.ActivityInfo" -->
 <#-- @ftlvariable name="customer" type="cn.aegisa.project.model.CustomerInfo" -->
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +28,11 @@
         </tr>
         </thead>
         <tbody>
+        <#if (activities??&&activities?size>0)>
+            <#list activities as a>
         <tr>
             <td>
-                name
+                ${a.activityName}
             </td>
             <td colspan="3">
                 <a class="layui-btn layui-btn-small layui-btn-normal insurance">保险单</a>
@@ -36,6 +40,8 @@
                 <a class="layui-btn layui-btn-small layui-btn-danger">常规人员登记表</a>
             </td>
         </tr>
+            </#list>
+        </#if>
         </tbody>
     </table>
 </div>
