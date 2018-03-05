@@ -17,4 +17,8 @@ public interface JoinService {
     List<String> getCustomerHistory(Integer cid);
 
     LayuiDataGridResponse<JoinInfoVo> queryCustomerInActivity(Integer id);
+
+    void setBusSeat(Integer id, Integer seat);
+
+    void deleteFromActivity(Integer id);
 }

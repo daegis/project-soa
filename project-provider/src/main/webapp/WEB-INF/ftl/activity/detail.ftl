@@ -97,16 +97,14 @@
                     , value: ''
                 }, function (value, index) {
                     $.ajax({
-                        url: '/joinAction_addBusSeat.action',
+                        url: '/join/setBusSeat',
                         type: 'post',
-                        data: {jid: data.jid, busSeat: value},
+                        data: {id: data.id, seat: value},
                         dataType: 'json',
                         success: function (data) {
                             if (data.success) {
                                 layer.close(index);
-                                obj.update({
-                                    busSeat: value
-                                });
+                                window.location.reload();
                             } else {
                                 alert(data.message);
                             }
@@ -123,15 +121,15 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
-                        url: '/joinAction_deleteFromActivity.action',
+                        url: '/join/deleteFromActivity',
                         type: 'post',
-                        data: {'jid': data.jid},
+                        data: {'id': data.id},
                         dataType: 'json',
                         success: function (data) {
                             if (data.success) {
                                 obj.del(); //删除对应行（tr）的DOM结构
                             }
-                            layer.msg(data.message);
+                            layer.msg('移除成功');
                         }
                     })
                 });
@@ -152,7 +150,7 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="detail">活动信息</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">个人信息</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">客户信息</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">从活动中移除</a>
 </script>
 <script type="text/html" id="genderTpl">

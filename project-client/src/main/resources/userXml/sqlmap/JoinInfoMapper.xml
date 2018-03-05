@@ -202,4 +202,12 @@
         cid=#{cid}
     </select>
 
+    <update id="removeBusSeat" parameterType="map">
+        UPDATE join_info
+        SET
+        bus_seat = NULL
+        WHERE
+        id = #{id}
+    </update>
+
 </mapper>

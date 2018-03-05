@@ -42,4 +42,26 @@ public class JoinRestController {
         LayuiDataGridResponse<JoinInfoVo> result = joinService.queryCustomerInActivity(id);
         return JSON.toJSONString(result);
     }
+
+    @RequestMapping("/setBusSeat")
+    public String setBusSeat(Integer id, String seat) {
+        try {
+            int seatNumber = Integer.parseInt(seat);
+            joinService.setBusSeat(id, seatNumber);
+            return MessageResponse.success();
+        } catch (Exception e) {
+            return MessageResponse.fail(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/deleteFromActivity")
+    public String deleteFromActivity(Integer id) {
+        try {
+            joinService.deleteFromActivity(id);
+            return MessageResponse.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageResponse.fail(e.getMessage());
+        }
+    }
 }

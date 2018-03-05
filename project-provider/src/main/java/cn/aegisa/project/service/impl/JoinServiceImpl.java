@@ -113,39 +113,60 @@ public class JoinServiceImpl implements JoinService {
         List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", id);
         // 参加该活动的人员id集合
         List<Integer> customerIdList = joinInfoList.stream().map(JoinInfo::getCid).collect(Collectors.toList());
-        List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
-        Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
-        List<JoinInfoVo> data = new LinkedList<>();
-        for (JoinInfo joinInfo : joinInfoList) {
-            // 对应每一条参团信息
-            Integer cid = joinInfo.getCid();
-            CustomerInfo customerInfo = mappingCustomer.get(cid);
-            JoinInfoVo vo = new JoinInfoVo();
-            vo.setId(joinInfo.getId());
-            vo.setCid(cid);
-            vo.setNickname(customerInfo.getNickname());
-            vo.setRealName(customerInfo.getRealName());
-            LocalDateTime joinDate = joinInfo.getJoinDate();
-            if (joinDate != null) {
-                vo.setJoinDate(LocalDateTimeUtil.timeToString(joinDate.toLocalDate()));
+        if (customerIdList != null && customerIdList.size() > 0) {
+            List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
+            Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
+            List<JoinInfoVo> data = new LinkedList<>();
+            for (JoinInfo joinInfo : joinInfoList) {
+                // 对应每一条参团信息
+                Integer cid = joinInfo.getCid();
+                CustomerInfo customerInfo = mappingCustomer.get(cid);
+                JoinInfoVo vo = new JoinInfoVo();
+                vo.setId(joinInfo.getId());
+                vo.setCid(cid);
+                vo.setNickname(customerInfo.getNickname());
+                vo.setRealName(customerInfo.getRealName());
+                LocalDateTime joinDate = joinInfo.getJoinDate();
+                if (joinDate != null) {
+                    vo.setJoinDate(LocalDateTimeUtil.timeToString(joinDate.toLocalDate()));
+                }
+                String idNumber = customerInfo.getIdNumber();
+                vo.setGender(IDNumberUtil.getGender(idNumber));
+                vo.setAge(IDNumberUtil.getAgeFromID(idNumber));
+                Integer discount = joinInfo.getDiscount();
+                Integer prepay = joinInfo.getPrepay();
+                int restPay = activityPrice - prepay - discount;
+                vo.setDiscount(discount);
+                vo.setPrepay(prepay);
+                vo.setPayMethod(joinInfo.getPayMethod());
+                vo.setRestPay(String.valueOf(restPay));
+                vo.setBusSeat(joinInfo.getBusSeat());
+                vo.setJoinComment(joinInfo.getJoinComment());
+                data.add(vo);
             }
-            String idNumber = customerInfo.getIdNumber();
-            vo.setGender(IDNumberUtil.getGender(idNumber));
-            vo.setAge(IDNumberUtil.getAgeFromID(idNumber));
-            Integer discount = joinInfo.getDiscount();
-            Integer prepay = joinInfo.getPrepay();
-            int restPay = activityPrice - prepay - discount;
-            vo.setDiscount(discount);
-            vo.setPrepay(prepay);
-            vo.setPayMethod(joinInfo.getPayMethod());
-            vo.setRestPay(String.valueOf(restPay));
-            vo.setBusSeat(joinInfo.getBusSeat());
-            vo.setJoinComment(joinInfo.getJoinComment());
-            data.add(vo);
+            response.setData(data);
+            response.setCount(data.size());
+        } else {
+            response.setCount(0);
         }
-        response.setData(data);
-        response.setCount(data.size());
         return response;
+    }
+
+    @Override
+    public void setBusSeat(Integer id, Integer seat) {
+        if (seat != null) {
+            JoinInfo joinInfo = new JoinInfo();
+            joinInfo.setId(id);
+            joinInfo.setBusSeat(seat);
+            commonService.update(joinInfo);
+        } else {
+            commonService.updateBySqlId(JoinInfo.class, "removeBusSeat", "id", id);
+        }
+    }
+
+    @Override
+    public void deleteFromActivity(Integer id) {
+        commonService.delete(id, JoinInfo.class);
     }
 
     private Map<Integer, CustomerInfo> mappingCustomerList(List<CustomerInfo> customerInfoList) {
