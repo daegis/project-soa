@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Using IntelliJ IDEA.
@@ -48,6 +49,16 @@ public class ReportController {
         return "report/report";
     }
 
+    @RequestMapping("/announce/{aid}")
+    public String toReportPage(Model model, @PathVariable Integer aid) {
+        ActivityInfo activityInfo = activityService.getById(aid);
+        List<Map<String, String>> list = reportService.getAnnounceCustomers(aid);
+        model.addAttribute("name", activityInfo.getActivityName());
+        model.addAttribute("time", LocalDateTimeUtil.timeToString(activityInfo.getActivityDate().toLocalDate()));
+        model.addAttribute("table", list);
+        return "report/announce";
+    }
+
     @RequestMapping("/commonInfo/{aid}")
     public void reportCommonTable(@PathVariable Integer aid, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ServletContext servletContext = request.getSession().getServletContext();
@@ -57,6 +68,17 @@ public class ReportController {
         ServletOutputStream outputStream = response.getOutputStream();
         response.setHeader("content-disposition", "attachment;fileName=mingdan" + System.currentTimeMillis() + ".xls");
         reportService.reportCommonTable(aid, in, outputStream);
+    }
+
+    @RequestMapping("/insurance/{aid}")
+    public void reportInsurance(@PathVariable Integer aid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ServletContext servletContext = request.getSession().getServletContext();
+        String realPath = servletContext.getRealPath(File.separator);
+        String filePath = realPath + File.separator + "template" + File.separator + "insurance.xls";
+        FileInputStream in = new FileInputStream(filePath);
+        ServletOutputStream outputStream = response.getOutputStream();
+        response.setHeader("content-disposition", "attachment;fileName=baoxian" + System.currentTimeMillis() + ".xls");
+        reportService.reportInsurance(aid, in, outputStream);
     }
 
 }
