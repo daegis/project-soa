@@ -20,13 +20,8 @@
                 <dd <#if from??&&from=='activityDetail' >class="layui-this"</#if>><a href="javascript:;">详情</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a href="javascript:;">报表</a>
-            <dl class="layui-nav-child">
-                <dd><a href="">选项1</a></dd>
-                <dd><a href="">选项2</a></dd>
-                <dd><a href="">选项3</a></dd>
-            </dl>
+        <li class="layui-nav-item<#if (category??&&category=='report')> layui-this</#if>">
+            <a href="/report/toPage">报表</a>
         </li>
         <li class="layui-nav-item">
             <a href="javascript:;">
