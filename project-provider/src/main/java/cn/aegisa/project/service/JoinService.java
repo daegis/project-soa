@@ -1,5 +1,6 @@
 package cn.aegisa.project.service;
 
+import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.vo.JoinInfoVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 
@@ -21,4 +22,6 @@ public interface JoinService {
     void setBusSeat(Integer id, Integer seat);
 
     void deleteFromActivity(Integer id);
+
+    JoinInfo getById(Integer id);
 }

@@ -1,27 +1,39 @@
+<#-- @ftlvariable name="join" type="cn.aegisa.project.model.JoinInfo" -->
 <#-- @ftlvariable name="activities" type="java.util.List" -->
+<#-- @ftlvariable name="formatter" type="java.time.format.DateTimeFormatter" -->
 <#-- @ftlvariable name="customer" type="cn.aegisa.project.model.CustomerInfo" -->
 <#-- @ftlvariable name="activity" type="cn.aegisa.project.model.ActivityInfo" -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户添加</title>
+    <title>参与活动信息</title>
     <#include "../common/import.ftl"/>
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>为
     <#if customer??&&customer.realName??>${customer.realName}</#if>/
-    <#if customer??&&customer.nickname??>${customer.nickname}</#if>指派活动
+    <#if customer??&&customer.nickname??>${customer.nickname}</#if>
+        <#if join??>
+        编辑活动信息
+        <#else>
+        指派活动
+        </#if>
     </legend>
 </fieldset>
 <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
     <form class="layui-form layui-form-pane" action="javascript:;" id="joinForm">
-        <input type="hidden" name="cid" value="<#if customer??&&customer.id??>${customer.id}</#if>">
+        <#if customer??&&customer.id??><input type="hidden" name="cid" value="${customer.id}"></#if>
         <div class="layui-form-item">
             <label class="layui-form-label">选择活动</label>
             <div class="layui-input-inline">
-                <select name="aid">
+                <#if activity??>
+                    <input type="text" autocomplete="off"
+                           value="${activity.activityName}" disabled
+                           placeholder="不填写默认为今天" class="layui-input">
+                <#else>
+                 <select name="aid">
                     <#if (activities??&&activities?size>0)>
                         <option value="">请选择一个活动</option>
                         <#list activities as activity>
@@ -30,7 +42,8 @@
                     <#else>
                         <option value="">无有效的活动</option>
                     </#if>
-                </select>
+                 </select>
+                </#if>
             </div>
         </div>
         <div class="layui-form-item">
@@ -47,6 +60,9 @@
                 <label class="layui-form-label">折扣</label>
                 <div class="layui-input-inline">
                     <input type="tel" name="discount" placeholder="不填写默认为0" autocomplete="off"
+                           <#if join??>
+                               value="${join.discount?c}"
+                           </#if>
                            class="layui-input">
                 </div>
             </div>
@@ -56,6 +72,9 @@
                 <label class="layui-form-label">预付款</label>
                 <div class="layui-input-inline">
                     <input type="tel" name="prepay" placeholder="不填写默认为0" autocomplete="off"
+                           <#if join??>
+                               value="${join.prepay?c}"
+                           </#if>
                            class="layui-input">
                 </div>
             </div>
@@ -78,6 +97,9 @@
                     </optgroup>
                     <optgroup label="其他">
                         <option value="现金">现金</option>
+                        <#if join??>
+                               <option selected value="${join.payMethod}">${join.payMethod}</option>
+                        </#if>
                     </optgroup>
                 </select>
             </div>
@@ -85,7 +107,8 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注信息</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入活动备注信息" class="layui-textarea" name="joinComment"></textarea>
+                <textarea placeholder="请输入活动备注信息" class="layui-textarea"
+                          name="joinComment"><#if join??>${join.joinComment}</#if></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -103,6 +126,9 @@
         form.render();
         laydate.render({
             elem: '#date'
+            <#if join??&&join.joinDate??>
+                , value: '${formatter.format(join.joinDate)}'
+            </#if>
         });
         //监听提交
         form.on('submit(submitBtn)', function (data) {

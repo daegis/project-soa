@@ -115,7 +115,15 @@
             }
 
             if (layEvent === 'detail') { //查看
-                window.location = "/joinAction_update.action?jid=" + data.jid;
+                layer.open({
+                    type: 2,
+                    title: '编辑活动信息',
+                    area: ['400px', '600px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    skin: 'layui-layer-rim',
+                    content: ['${rc.contextPath}/to/join/joinEdit/' + data.id, 'no']
+                });
             } else if (layEvent === 'del') { //删除
                 layer.confirm('真的要从当前活动中移除人员【' + data.realName + '(' + data.nickname + ')】吗?请注意, 从活动中移除一位成员并不会从人员列表中移除这个人, 稍后可以在其他活动中重新添加这个人员.', function (index) {
                     layer.close(index);

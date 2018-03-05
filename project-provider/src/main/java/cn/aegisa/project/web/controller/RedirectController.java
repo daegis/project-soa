@@ -3,8 +3,10 @@ package cn.aegisa.project.web.controller;
 import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.model.CustomerInfo;
+import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.service.CustomerService;
+import cn.aegisa.project.service.JoinService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class RedirectController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private JoinService joinService;
 
     @RequestMapping("/main")
     public String toWelcomePage() {
@@ -113,6 +118,21 @@ public class RedirectController {
         model.addAttribute("customer", customerInfo);
         model.addAttribute("activities", activityInfoList);
         log.info(JSON.toJSONString(model));
+        return "join/joinInfo";
+    }
+
+    @RequestMapping("/join/joinEdit/{id}")
+    public String toJoinEdit(@PathVariable Integer id, Model model) {
+        JoinInfo joinInfo = joinService.getById(id);
+        Integer aid = joinInfo.getAid();
+        Integer cid = joinInfo.getCid();
+        ActivityInfo activityInfo = activityService.getById(aid);
+        CustomerInfo customerInfo = customerService.getById(cid);
+        model.addAttribute("customer", customerInfo);
+        model.addAttribute("activity", activityInfo);
+        model.addAttribute("join", joinInfo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        model.addAttribute("formatter", formatter);
         return "join/joinInfo";
     }
 }

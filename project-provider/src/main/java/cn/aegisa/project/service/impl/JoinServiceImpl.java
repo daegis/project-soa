@@ -169,6 +169,11 @@ public class JoinServiceImpl implements JoinService {
         commonService.delete(id, JoinInfo.class);
     }
 
+    @Override
+    public JoinInfo getById(Integer id) {
+        return commonService.get(id, JoinInfo.class);
+    }
+
     private Map<Integer, CustomerInfo> mappingCustomerList(List<CustomerInfo> customerInfoList) {
         Map<Integer, CustomerInfo> result = new LinkedHashMap<>();
         if (customerInfoList != null) {
