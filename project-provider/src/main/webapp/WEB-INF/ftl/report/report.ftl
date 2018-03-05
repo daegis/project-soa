@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户添加</title>
+    <title>报表管理</title>
     <#include "../common/import.ftl"/>
 </head>
 <body>
@@ -35,9 +35,10 @@
                 ${a.activityName}
             </td>
             <td colspan="3">
-                <a class="layui-btn layui-btn-small layui-btn-normal insurance">保险单</a>
+                <a class="layui-btn layui-btn-small layui-btn-normal">保险单</a>
                 <a class="layui-btn layui-btn-small" target="_blank">免责声明</a>
-                <a class="layui-btn layui-btn-small layui-btn-danger">常规人员登记表</a>
+                <a class="layui-btn layui-btn-small layui-btn-danger"
+                   href="/report/commonInfo/${a.id}">常规人员登记表</a>
             </td>
         </tr>
             </#list>
