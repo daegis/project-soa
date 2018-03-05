@@ -210,4 +210,12 @@
         id = #{id}
     </update>
 
+    <update id="deleteComment" parameterType="map">
+        UPDATE join_info
+        SET
+        join_comment = NULL
+        WHERE
+        id = #{id}
+    </update>
+
 </mapper>

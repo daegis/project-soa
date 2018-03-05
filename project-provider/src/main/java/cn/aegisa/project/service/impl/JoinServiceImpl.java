@@ -83,7 +83,25 @@ public class JoinServiceImpl implements JoinService {
             commonService.save(joinInfo);
         } else {
             // 修改的记录
-
+            JoinInfo joinInfo = new JoinInfo();
+            joinInfo.setId(infoVo.getId());
+            joinInfo.setDiscount(infoVo.getDiscount());
+            joinInfo.setPrepay(infoVo.getPrepay());
+            joinInfo.setPayMethod(infoVo.getPayMethod());
+            String joinDate = infoVo.getJoinDate();
+            if (StrUtil.strCheckNotNull(joinDate)) {
+                LocalDateTime joinLocalDateTime = LocalDateTimeUtil.fromString(joinDate);
+                joinInfo.setJoinDate(joinLocalDateTime);
+            }
+            joinInfo.setJoinComment(infoVo.getJoinComment());
+            // 更新参加活动信息
+            commonService.update(joinInfo);
+            // 判断是否清空了备注
+            String joinComment = infoVo.getJoinComment();
+            if (!StrUtil.strCheckNotNull(joinComment)) {
+                // 备注为空 清空备注
+                commonService.updateBySqlId(JoinInfo.class, "deleteComment", "id", infoVo.getId());
+            }
         }
     }
 

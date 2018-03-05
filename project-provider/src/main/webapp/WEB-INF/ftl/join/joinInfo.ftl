@@ -25,6 +25,7 @@
 <div style="margin-top: 20px;margin-left: 20px;margin-right: 20px;">
     <form class="layui-form layui-form-pane" action="javascript:;" id="joinForm">
         <#if customer??&&customer.id??><input type="hidden" name="cid" value="${customer.id}"></#if>
+        <#if join??><input type="hidden" name="id" value="${join.id}"></#if>
         <div class="layui-form-item">
             <label class="layui-form-label">选择活动</label>
             <div class="layui-input-inline">
@@ -108,7 +109,7 @@
             <label class="layui-form-label">备注信息</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入活动备注信息" class="layui-textarea"
-                          name="joinComment"><#if join??>${join.joinComment}</#if></textarea>
+                          name="joinComment"><#if join??&&join.joinComment??>${join.joinComment}</#if></textarea>
             </div>
         </div>
         <div class="layui-form-item">
@@ -147,6 +148,9 @@
                         }, function () {
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
+                            <#if join??>
+                               parent.window.location.reload();
+                            </#if>
                         });
                     } else {
                         doAlert(layer, data.message);
