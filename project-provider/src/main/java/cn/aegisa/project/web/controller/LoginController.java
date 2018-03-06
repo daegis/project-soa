@@ -42,7 +42,7 @@ public class LoginController {
             log.info("密码错误，登录失败");
             return MessageResponse.fail("用户名或密码错误");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("其他异常:" + e.getMessage());
             return MessageResponse.fail(e.getMessage());
         }
     }
