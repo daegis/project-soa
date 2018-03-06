@@ -81,7 +81,7 @@
                 , {field: 'joinComment', title: '备注信息', width: 120, align: 'center'}
                 , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
             ]],
-            url: '/join/customers/${activity.id}'
+            url: '${rc.contextPath}/join/customers/${activity.id}'
         });
 
         table.on('tool(dataTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -97,7 +97,7 @@
                     , value: ''
                 }, function (value, index) {
                     $.ajax({
-                        url: '/join/setBusSeat',
+                        url: '${rc.contextPath}/join/setBusSeat',
                         type: 'post',
                         data: {id: data.id, seat: value},
                         dataType: 'json',
@@ -129,7 +129,7 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
-                        url: '/join/deleteFromActivity',
+                        url: '${rc.contextPath}/join/deleteFromActivity',
                         type: 'post',
                         data: {'id': data.id},
                         dataType: 'json',

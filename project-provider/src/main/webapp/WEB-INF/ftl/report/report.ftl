@@ -36,11 +36,11 @@
             </td>
             <td colspan="3">
                 <a class="layui-btn layui-btn-small layui-btn-normal"
-                   href="/report/insurance/${a.id}">保险单</a>
+                   href="${rc.contextPath}/report/insurance/${a.id}">保险单</a>
                 <a class="layui-btn layui-btn-small" target="_blank"
-                   href="/report/announce/${a.id}">免责声明</a>
+                   href="${rc.contextPath}/report/announce/${a.id}">免责声明</a>
                 <a class="layui-btn layui-btn-small layui-btn-danger"
-                   href="/report/commonInfo/${a.id}">常规人员登记表</a>
+                   href="${rc.contextPath}/report/commonInfo/${a.id}">常规人员登记表</a>
             </td>
         </tr>
             </#list>
