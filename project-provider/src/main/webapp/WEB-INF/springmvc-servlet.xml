@@ -28,7 +28,7 @@
     </bean>
 
     <!-- freemarker -->
-    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <bean id="freemarkerConfig" class="cn.aegisa.project.common.FreeMarkerConfigExtend">
         <!--视图资源位置-->
         <property name="templateLoaderPaths">
             <list>

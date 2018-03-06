@@ -46,4 +46,10 @@ public class LoginController {
             return MessageResponse.fail(e.getMessage());
         }
     }
+
+    @RequestMapping("/doLogout")
+    public String doLogout() {
+        SecurityUtils.getSubject().logout();
+        return "redirect:/";
+    }
 }
