@@ -60,6 +60,27 @@
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/user/login"/>
+        <property name="unauthorizedUrl" value="/error.html"/>
+        <!-- anon 未登录也可以访问的资源 -->
+        <!-- authc	需要登录才能访问的资源 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /user/doLogin = anon
+                /layui/** = anon
+                /** = authc
+                /* = authc
+            </value>
+        </property>
+    </bean>
+
+
     <!--<import resource="classpath*:/config/spring_task.xml"/>-->
     <import resource="classpath*:/config/spring_db_model.xml"/>
     <!--<import resource="classpath*:/config/spring_api.xml"/>-->

@@ -1,7 +1,7 @@
 <#-- @ftlvariable name="formatter" type="java.time.format.DateTimeFormatter" -->
 <#-- @ftlvariable name="activity" type="cn.aegisa.project.model.ActivityInfo" -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn">
 <head>
     <meta charset="UTF-8">
     <title>活动添加</title>
