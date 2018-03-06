@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = commonService.get(User.class, "name", username);
         if (user == null) {
-            throw new AuthenticationException("用户不存在");
+            throw new AuthenticationException("用户名或密码错误");
         }
         if (user.getStatus() != 0) {
             LocalDateTime now = LocalDateTime.now();
