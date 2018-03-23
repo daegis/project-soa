@@ -1,5 +1,6 @@
 package cn.aegisa.project.web.controller;
 
+import cn.aegisa.project.annotation.SystemLog;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.service.ReportService;
@@ -41,6 +42,7 @@ public class ReportController {
     private ReportService reportService;
 
     @RequestMapping("/toPage")
+    @SystemLog(message = "必须是奥特曼才能用", type = 1)
     public String toReportPage(Model model) {
         List<ActivityInfo> list = activityService.getAll();
         list.sort((o1, o2) -> o2.getId() - o1.getId());

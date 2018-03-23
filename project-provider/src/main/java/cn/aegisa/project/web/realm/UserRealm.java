@@ -2,6 +2,7 @@ package cn.aegisa.project.web.realm;
 
 import cn.aegisa.project.model.User;
 import cn.aegisa.project.service.UserService;
+import com.alibaba.fastjson.JSON;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
