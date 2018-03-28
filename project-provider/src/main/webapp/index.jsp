@@ -1,1 +1,1 @@
-<meta http-equiv='refresh' content='0;url=/login/index.go'>
+<jsp:forward page="/main"/>
