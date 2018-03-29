@@ -4,6 +4,7 @@ import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.WeightRecord;
 import cn.aegisa.project.service.RecordService;
 import cn.aegisa.project.vo.ValueResponse;
+import cn.aegisa.project.vo.WeightVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,6 +84,22 @@ public class RecordServiceImpl implements RecordService {
         response.setXydValue(xydList);
         response.setCoolValue(shuangList);
         return response;
+    }
+
+    @Override
+    public List<WeightVo> queryList(String name) {
+        List<WeightVo> list = new LinkedList<>();
+        List<WeightRecord> recordList = commonService.getList(WeightRecord.class, "name", name);
+        for (WeightRecord weightRecord : recordList) {
+            WeightVo vo = new WeightVo();
+            vo.setId(String.valueOf(weightRecord.getId()));
+            vo.setName(weightRecord.getName());
+            vo.setWeight(String.valueOf(weightRecord.getWeight()) + "（Kg）");
+            vo.setDate(weightRecord.getDatetime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            list.add(vo);
+        }
+        list.sort(Comparator.comparing(WeightVo::getId));
+        return list;
     }
 
     private static WeightRecord getOneByDay(List<WeightRecord> list, LocalDate localDate) {

@@ -78,6 +78,14 @@
             </form>
         </div>
     </div>
+    <hr class="layui-bg-cyan">
+    <div style="width: 1000px;margin-left: auto;margin-right: auto">
+        <table class="layui-hide" id="cool"></table>
+    </div>
+    <hr class="layui-bg-cyan">
+    <div style="width: 1000px;margin-left: auto;margin-right: auto">
+        <table class="layui-hide" id="xyd"></table>
+    </div>
     <!-- END: About Our Agency -->
     <!--START: Footer-->
     <footer class="nk-footer">
@@ -103,8 +111,9 @@
 
 <!-- END: Scripts -->
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form', 'layedit', 'table'], function () {
         var form = layui.form
+            , table = layui.table
             , layer = layui.layer;
         form.render();
 
@@ -127,8 +136,31 @@
                     }
                 }
             });
-
             return false;
+        });
+
+        table.render({
+            elem: '#cool'
+            , url: '/queryInfo.do?who=shuang'
+            , cellMinWidth: 80
+            , cols: [[
+                {field: 'id', width: 200, title: 'ID', sort: true}
+                , {field: 'name', width: 200, title: '是谁？'}
+                , {field: 'weight', width: 200, title: '多沉？'}
+                , {field: 'date', title: '啥时候？'}
+            ]]
+        });
+
+        table.render({
+            elem: '#xyd'
+            , url: '/queryInfo.do?who=yingda'
+            , cellMinWidth: 80
+            , cols: [[
+                {field: 'id', width: 200, title: 'ID', sort: true}
+                , {field: 'name', width: 200, title: '是谁？'}
+                , {field: 'weight', width: 200, title: '多沉？'}
+                , {field: 'date', title: '啥时候？'}
+            ]]
         });
     });
 </script>
@@ -184,7 +216,6 @@
                 option.series[1].data = data.coolValue;
             }
         });
-        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
     })
 </script>

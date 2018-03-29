@@ -1,7 +1,9 @@
 package cn.aegisa.project.web;
 
+import cn.aegisa.project.model.WeightRecord;
 import cn.aegisa.project.service.RecordService;
 import cn.aegisa.project.vo.ValueResponse;
+import cn.aegisa.project.vo.WeightVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,5 +66,17 @@ public class RecordController {
     @ResponseBody
     public ValueResponse queryData() {
         return recordService.queryData();
+    }
+
+    @RequestMapping("/queryInfo")
+    @ResponseBody
+    public Map<String, Object> queryInfo(String who) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", 1000);
+        List<WeightVo> list = recordService.queryList(who);
+        map.put("data", list);
+        return map;
     }
 }
