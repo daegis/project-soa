@@ -58,8 +58,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">要记谁的</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="who" value="selext" title="xyd">
-                        <input type="radio" name="who" value="cool" title="sss">
+                        <input type="radio" name="who" value="shuang" title="爽">
+                        <input type="radio" name="who" value="yingda" title="达">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -169,15 +169,19 @@
         };
 
         $.ajax({
-            url: '/queryData.go',
+            url: '/queryData.do',
             type: 'post',
             data: '',
+            async: false,
             dataType: 'json',
             error: function () {
+                alert('服务器连接失败');
                 window.location.reload();
             },
             success: function (data) {
-
+                option.xAxis.data = data.days;
+                option.series[0].data = data.xydValue;
+                option.series[1].data = data.coolValue;
             }
         });
         // 使用刚指定的配置项和数据显示图表。
