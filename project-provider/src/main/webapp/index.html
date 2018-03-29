@@ -4,31 +4,20 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>增肥计划</title>
-
+    <title>PROJECT LOSE WEIGHT</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- START: Styles -->
-
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i%7cWork+Sans:400,500,700"
           rel="stylesheet" type="text/css">
-
     <link rel="stylesheet" href="assets/css/combined.css">
-
-    <!-- END: Styles -->
-
+    <script src="https://cdn.bootcss.com/echarts/4.0.4/echarts.common.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+    <script src="/layui/layui.all.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
 
 </head>
-
 <body>
-
-
-<div class="nk-main">
-
+<div class="nk-main" style="width: 100%">
     <!-- START: Header Title -->
     <div class="nk-header-title nk-header-title-full">
         <div class="bg-image">
@@ -38,30 +27,16 @@
         <div class="nk-header-table">
             <div class="nk-header-table-cell">
                 <div class="container">
-
-
-                    <h1 class="nk-title display-3 text-white">如何能瞬间暴瘦50斤
-                        <br>
-                        <em class="fw-400">截肢</em>
-                    </h1>
-
-
-                    <div class="nk-gap"></div>
-                    <div class="nk-header-text text-white">
-                        <div class="nk-gap-4"></div>
-                    </div>
-
-
+                    <div id="main"
+                         style="margin-bottom:50px;width: 80%;height:500px;background-color: aliceblue;margin-left: auto;margin-right: auto"></div>
                 </div>
             </div>
         </div>
-
         <div>
             <a class="nk-header-title-scroll-down text-white" href="#nk-header-title-scroll-down">
                 <span class="pe-7s-angle-down"></span>
             </a>
         </div>
-
     </div>
 
     <div id="nk-header-title-scroll-down"></div>
@@ -70,37 +45,37 @@
 
 
     <!-- START: About Our Agency -->
-    <div class="bg-white" id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2 text-xs-center">
-                    <div class="nk-gap-4 mt-9"></div>
-
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <h2 class="display-4">About Our Agency</h2>
-                    <div class="nk-gap mnt-5"></div>
-
-                    <p>We are a new design studio based in USA. We have over 20 years of combined experience, and know a
-                        thing or two about designing websites and mobile apps. Clever use of technology and lean
-                        processes enable us to work faster and smarter.
-                    </p>
-
-                    <img src="assets/images/about-me-signature.png" alt="" class="nk-img-fit">
-
-                    <div class="nk-gap-4 mt-25"></div>
+    <div style="margin-top: 20px;width: 80%;margin-left: auto;margin-right: auto">
+        <div>
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">输入密钥</label>
+                    <div class="layui-input-block">
+                        <input type="password" name="password" placeholder="提交记录前必须填写密钥" autocomplete="off"
+                               class="layui-input">
+                    </div>
                 </div>
-            </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">要记谁的</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="who" value="selext" title="xyd">
+                        <input type="radio" name="who" value="cool" title="sss">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">记录值</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="weight" autocomplete="off" placeholder="体重单位为千克（Kg）"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <!-- END: About Our Agency -->
@@ -127,7 +102,88 @@
 <script src="assets/js/combined.js"></script>
 
 <!-- END: Scripts -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+        form.render();
 
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            $.ajax({
+                url: '/record.do',
+                type: 'post',
+                data: data.field,
+                dataType: 'json',
+                error: function () {
+                    alert('服务器连接失败');
+                },
+                success: function (data) {
+                    if (data.success) {
+                        alert('记录成功');
+                        window.location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var myChart = echarts.init(document.getElementById('main'), 'light');
+
+        var option = {
+            legend: {
+                data: ['达', '爽']
+            },
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value',
+                name: '单位：千克',
+                min: 50,
+                max: 110
+            },
+            series: [{
+                data: [101, 100, 99, 102, 97, 97, 98.2],
+                type: 'line',
+                name: '达',
+                color: 'purple',
+                label: {
+                    show: true
+                }
+            }, {
+                data: [65, 64, 66.5, 66.75, 70, 65, 65],
+                type: 'line',
+                name: '爽',
+                label: {
+                    show: true
+                }
+            }]
+        };
+
+        $.ajax({
+            url: '/queryData.go',
+            type: 'post',
+            data: '',
+            dataType: 'json',
+            error: function () {
+                window.location.reload();
+            },
+            success: function (data) {
+
+            }
+        });
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    })
+</script>
 
 </body>
 
