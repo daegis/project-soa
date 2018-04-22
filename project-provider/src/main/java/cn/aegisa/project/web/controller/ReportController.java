@@ -1,6 +1,5 @@
 package cn.aegisa.project.web.controller;
 
-import cn.aegisa.project.annotation.SystemLog;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.service.ReportService;
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,8 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +39,7 @@ public class ReportController {
     private ReportService reportService;
 
     @RequestMapping("/toPage")
-    @SystemLog(message = "必须是奥特曼才能用", type = 1)
+//    @SystemLog(message = "必须是奥特曼才能用", type = 1)
     public String toReportPage(Model model) {
         List<ActivityInfo> list = activityService.getAll();
         list.sort((o1, o2) -> o2.getId() - o1.getId());
@@ -53,11 +50,31 @@ public class ReportController {
 
     @RequestMapping("/announce/{aid}")
     public String toReportPage(Model model, @PathVariable Integer aid) {
+        int pageCount = 15;
         ActivityInfo activityInfo = activityService.getById(aid);
+        // 返回格式 name：xxx  id：zzz
+        List<List<Map<String, String>>> toPageList = new LinkedList<>();
         List<Map<String, String>> list = reportService.getAnnounceCustomers(aid);
+        int size = list.size();
+        int page = size / pageCount;
+        if (size % pageCount != 0) {
+            page++;
+        }
+        for (int i = 0; i < page; i++) {
+            List<Map<String, String>> innerList = new LinkedList<>();
+            toPageList.add(innerList);
+        }
+        // 将返回list进行分组
+        for (Map<String, String> customer : list) {
+            String number = customer.get("number");
+            int intNumber = Integer.parseInt(number) - 1;
+            int listIndex = intNumber / pageCount;
+            List<Map<String, String>> maps = toPageList.get(listIndex);
+            maps.add(customer);
+        }
         model.addAttribute("name", activityInfo.getActivityName());
         model.addAttribute("time", LocalDateTimeUtil.timeToString(activityInfo.getActivityDate().toLocalDate()));
-        model.addAttribute("table", list);
+        model.addAttribute("pageList", toPageList);
         return "report/announce";
     }
 

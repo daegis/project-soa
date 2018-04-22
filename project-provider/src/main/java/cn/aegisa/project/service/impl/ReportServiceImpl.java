@@ -71,8 +71,8 @@ public class ReportServiceImpl implements ReportService {
                 row.createCell(7).setCellValue(joinInfo.getPrepay());
                 row.createCell(8).setCellValue(activityInfo.getPrice() - joinInfo.getDiscount() - joinInfo.getPrepay());
                 row.createCell(11).setCellValue(joinInfo.getPayMethod());
-                row.createCell(12).setCellValue(idNumber);
-                row.createCell(13).setCellValue(customerInfo.getTelephone());
+                row.createCell(12).setCellValue("-" + idNumber + "-");
+                row.createCell(13).setCellValue("-" + customerInfo.getTelephone() + "-");
                 rowIndex++;
             }
             book.write(outputStream);
@@ -126,6 +126,11 @@ public class ReportServiceImpl implements ReportService {
                 map.put("id", StrUtil.strCheckNotNull(customerInfo.getIdNumber()) ? customerInfo.getIdNumber() : "错误的身份证号");
                 list.add(map);
             }
+        }
+        int number = 1;
+        for (Map<String, String> map : list) {
+            map.put("number", String.valueOf(number));
+            number++;
         }
         return list;
     }
