@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
 import java.io.FileInputStream;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -117,10 +114,21 @@ public class ReportServiceImpl implements ReportService {
     public List<Map<String, String>> getAnnounceCustomers(Integer aid) {
         List<Map<String, String>> list = new LinkedList<>();
         List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", aid);
-        List<Integer> customerIdList = joinInfoList.stream().map(JoinInfo::getCid).collect(Collectors.toList());
-        if (customerIdList != null && customerIdList.size() != 0) {
-            List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
-            for (CustomerInfo customerInfo : customerInfoList) {
+        if (joinInfoList != null && joinInfoList.size() != 0) {
+            joinInfoList.sort((o1, o2) -> {
+                Integer o1Seat = o1.getBusSeat();
+                Integer o2Seat = o2.getBusSeat();
+                if (o1Seat == null) {
+                    return 1;
+                } else if (o2Seat == null) {
+                    return -1;
+                } else {
+                    return o1Seat - o2Seat;
+                }
+            });
+            for (JoinInfo joinInfo : joinInfoList) {
+                Integer cid = joinInfo.getCid();
+                CustomerInfo customerInfo = commonService.get(cid, CustomerInfo.class);
                 Map<String, String> map = new LinkedHashMap<>();
                 map.put("name", StrUtil.strCheckNotNull(customerInfo.getRealName()) ? customerInfo.getRealName() : "没有真实姓名");
                 map.put("id", StrUtil.strCheckNotNull(customerInfo.getIdNumber()) ? customerInfo.getIdNumber() : "错误的身份证号");
