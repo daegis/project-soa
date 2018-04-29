@@ -26,7 +26,7 @@
         var tableIns = table.render({
             elem: '#dataTable',
             cols: [[
-                {field: 'id', title: 'ID', width: 50, align: 'center'},
+                {field: 'id', title: 'ID', width: 80, align: 'center'},
                 {field: 'nickname', title: '网名', width: 100, align: 'center'},
                 {field: 'name', title: '真实姓名', width: 90, align: 'center'},
                 {field: 'telephone', title: '手机号', width: 120, align: 'center'},
@@ -90,6 +90,9 @@
             tableIns.reload({
                 where: {
                     keyword: $keyword
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
                 }
             });
         });
