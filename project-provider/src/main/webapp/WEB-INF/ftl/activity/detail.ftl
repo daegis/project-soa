@@ -60,7 +60,8 @@
         table.render({
             elem: '#dataTable',
             cols: [[
-                {field: 'nickname', title: '昵称', width: 120, align: 'center'}
+                {field: 'id', title: 'ID', width: 80, align: 'center'}
+                , {field: 'nickname', title: '昵称', width: 120, align: 'center'}
                 , {field: 'realName', title: '姓名', width: 90, align: 'center'}
                 , {field: 'joinDate', title: '报名日期', sort: true, width: 120, align: 'center'}
                 , {field: 'gender', title: '性别', sort: true, width: 75, align: 'center', templet: '#genderTpl'}
@@ -81,7 +82,11 @@
                 , {field: 'joinComment', title: '备注信息', width: 120, align: 'center'}
                 , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
             ]],
-            url: '${rc.contextPath}/join/customers/${activity.id}'
+            url: '${rc.contextPath}/join/customers/${activity.id}',
+            initSort: {
+                field: 'busSeat' //排序字段，对应 cols 设定的各字段名
+                , type: 'asc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
         });
 
         table.on('tool(dataTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"

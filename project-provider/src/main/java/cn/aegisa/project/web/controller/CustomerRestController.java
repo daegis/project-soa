@@ -4,9 +4,9 @@ import cn.aegisa.project.common.MessageResponse;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.service.CustomerService;
 import cn.aegisa.project.service.JoinService;
-import cn.aegisa.project.vo.LayuiDataGridResponse;
 import cn.aegisa.project.vo.CustomerQueryVo;
 import cn.aegisa.project.vo.CustomerResponseVo;
+import cn.aegisa.project.vo.LayuiDataGridResponse;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +57,16 @@ public class CustomerRestController {
     public String showCustomerHistory(Integer cid) {
         List<String> activityNames = joinService.getCustomerHistory(cid);
         StringBuilder sb = new StringBuilder();
+        int count = 1;
         if (activityNames != null && activityNames.size() > 0) {
             sb.append("客户参加的活动：").append("<br>");
             Iterator<String> iterator = activityNames.iterator();
             String first = iterator.next();
-            sb.append(first);
+            sb.append(String.valueOf(count)).append("、").append(first);
             while (iterator.hasNext()) {
                 String next = iterator.next();
-                sb.append("<br>").append(next);
+                count++;
+                sb.append("<br><hr>").append(String.valueOf(count)).append("、").append(next);
             }
         } else {
             sb.append("该客户未参加任何活动");
