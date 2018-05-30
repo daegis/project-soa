@@ -40,7 +40,11 @@
                 <a class="layui-btn layui-btn-small" target="_blank"
                    href="${rc.contextPath}/report/announce/${a.id}">免责声明</a>
                 <a class="layui-btn layui-btn-small layui-btn-danger"
-                   href="${rc.contextPath}/report/commonInfo/${a.id}">常规人员登记表</a>
+                   href="${rc.contextPath}/report/commonInfo/${a.id}/zuoweibiao">座位排序常规表</a>
+                <a class="layui-btn layui-btn-small layui-btn-danger"
+                   href="${rc.contextPath}/report/commonInfo/${a.id}/jiucanbiao">就餐排序常规表</a>
+                <a class="layui-btn layui-btn-small layui-btn-danger"
+                   href="${rc.contextPath}/report/commonInfo/${a.id}/fangjianbiao">房间号排序常规表</a>
             </td>
         </tr>
             </#list>

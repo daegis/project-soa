@@ -12,7 +12,7 @@ import java.util.Map;
  * @date 2018/3/5 14:24
  */
 public interface ReportService {
-    void reportCommonTable(Integer aid, FileInputStream in, ServletOutputStream outputStream);
+    void reportCommonTable(Integer aid,String type, FileInputStream in, ServletOutputStream outputStream);
 
     void reportInsurance(Integer aid, FileInputStream in, ServletOutputStream outputStream);
 

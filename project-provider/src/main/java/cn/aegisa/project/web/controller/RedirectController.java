@@ -1,6 +1,5 @@
 package cn.aegisa.project.web.controller;
 
-import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.model.JoinInfo;
@@ -93,7 +92,8 @@ public class RedirectController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         model.addAttribute("formatter", formatter);
         // 获取参加当前活动的人员信息
-
+        String warn = activityService.getConflictSeat(id);
+        model.addAttribute("warn", warn);
         return "activity/detail";
     }
 

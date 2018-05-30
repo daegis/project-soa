@@ -5,7 +5,6 @@ import cn.aegisa.project.vo.ActivityAddVo;
 import cn.aegisa.project.vo.ActivityResponseVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -26,4 +25,8 @@ public interface ActivityService {
     Integer queryCustomerCount(Integer id);
 
     List<ActivityInfo> getAll();
+
+    void endActivity(Integer aid);
+
+    String getConflictSeat(Integer id);
 }

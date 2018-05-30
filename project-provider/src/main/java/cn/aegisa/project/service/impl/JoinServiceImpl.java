@@ -12,7 +12,6 @@ import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.JoinInfoVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -160,6 +159,8 @@ public class JoinServiceImpl implements JoinService {
                 vo.setRestPay(String.valueOf(restPay));
                 vo.setBusSeat(joinInfo.getBusSeat());
                 vo.setJoinComment(joinInfo.getJoinComment());
+                vo.setTableSeat(joinInfo.getTableSeat());
+                vo.setRoomId(joinInfo.getRoomId());
                 data.add(vo);
             }
             response.setData(data);
@@ -190,6 +191,27 @@ public class JoinServiceImpl implements JoinService {
     @Override
     public JoinInfo getById(Integer id) {
         return commonService.get(id, JoinInfo.class);
+    }
+
+    @Override
+    public void setInActivityInfo(String type, Integer id, int seatNumber) {
+        if (id == null) {
+            throw new RuntimeException("id不能为空");
+        }
+        JoinInfo joinInfo = new JoinInfo();
+        joinInfo.setId(id);
+        switch (type) {
+            case "bus":
+                joinInfo.setBusSeat(seatNumber);
+                break;
+            case "table":
+                joinInfo.setTableSeat(seatNumber);
+                break;
+            case "room":
+                joinInfo.setRoomId(seatNumber);
+                break;
+        }
+        commonService.update(joinInfo);
     }
 
     private Map<Integer, CustomerInfo> mappingCustomerList(List<CustomerInfo> customerInfoList) {

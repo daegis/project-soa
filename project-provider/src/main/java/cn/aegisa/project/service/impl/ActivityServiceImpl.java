@@ -4,7 +4,6 @@ import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.service.ActivityService;
-import cn.aegisa.project.service.JoinService;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.ActivityAddVo;
@@ -14,14 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Using IntelliJ IDEA.
@@ -82,6 +77,12 @@ public class ActivityServiceImpl implements ActivityService {
             } else {
                 vo.setCurrentCount("--");
             }
+            Integer isDone = info.getIsDone();
+            if (isDone == 0) {
+                vo.setStatus("<font color=\"green\">进行中</font>");
+            } else {
+                vo.setStatus("<font color=\"red\">已完成</font>");
+            }
             voList.add(vo);
         }
         Collections.reverse(voList);
@@ -107,6 +108,67 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<ActivityInfo> getAll() {
         return commonService.getList(ActivityInfo.class);
+    }
+
+    @Override
+    public void endActivity(Integer aid) {
+        ActivityInfo info = commonService.get(aid, ActivityInfo.class);
+        Integer isDone = info.getIsDone();
+        if (isDone == 0) {
+            info.setIsDone(1);
+        } else if (isDone == 1) {
+            info.setIsDone(0);
+        }
+        commonService.update(info);
+    }
+
+    @Override
+    public String getConflictSeat(Integer id) {
+        List<JoinInfo> infoList = commonService.getList(JoinInfo.class, "aid", id);
+        if (infoList != null && infoList.size() > 0) {
+            int nullCount = 0;
+            Map<Integer, Integer> map = new ConcurrentHashMap<>();
+            for (JoinInfo joinInfo : infoList) {
+                Integer busSeat = joinInfo.getBusSeat();
+                if (busSeat == null) {
+                    nullCount++;
+                    continue;
+                }
+                Integer integer = map.get(busSeat);
+                if (integer == null) {
+                    map.put(busSeat, 1);
+                } else {
+                    map.put(busSeat, integer + 1);
+                }
+            }
+            Set<Integer> set = new TreeSet<>();
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+                Integer key = entry.getKey();
+                Integer value = entry.getValue();
+                if (value > 1) {
+                    set.add(key);
+                }
+            }
+            if (set.isEmpty() && nullCount == 0) {
+                return null;
+            }
+            StringBuilder sb = new StringBuilder("发现一些关于此活动的异常信息：<br>");
+            if (nullCount > 0) {
+                sb.append("有<font color=\"red\">【").append(nullCount).append("】</font>个参与活动的客户还没有设置座位号。<br>");
+            }
+            if (!set.isEmpty()) {
+                Iterator<Integer> iterator = set.iterator();
+                Integer next = iterator.next();
+                StringBuilder numbers = new StringBuilder(String.valueOf(next));
+                while (iterator.hasNext()) {
+                    Integer in = iterator.next();
+                    numbers.append("，").append(String.valueOf(in));
+                }
+                sb.append("检测到重复的座位号（严重）：").append("<font color=\"red\">").append(numbers).append("</font>。");
+            }
+            return sb.toString();
+        }
+        return null;
     }
 
     private void paramsCheck(ActivityAddVo addVo) throws Exception {

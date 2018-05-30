@@ -1,11 +1,9 @@
 package cn.aegisa.project.web.controller;
 
 import cn.aegisa.project.common.MessageResponse;
-import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.vo.ActivityAddVo;
 import cn.aegisa.project.vo.ActivityResponseVo;
-import cn.aegisa.project.vo.CustomerResponseVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +42,17 @@ public class ActivityRestController {
     public String activityListShow() {
         LayuiDataGridResponse<ActivityResponseVo> response = activityService.queryList();
         return JSON.toJSONString(response);
+    }
+
+    @RequestMapping("/end")
+    public String endActivity(Integer aid) {
+        log.info("前台传入要变更状态的活动id：" + aid);
+        try {
+            activityService.endActivity(aid);
+            return MessageResponse.success();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return MessageResponse.fail(e.getMessage());
+        }
     }
 }

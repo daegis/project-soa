@@ -1,7 +1,6 @@
 package cn.aegisa.project.vo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Using IntelliJ IDEA.
@@ -9,8 +8,7 @@ import lombok.Setter;
  * @author HNAyd.xian
  * @date 2018/3/1 17:31
  */
-@Setter
-@Getter
+@Data
 public class JoinInfoVo {
     private Integer id;
     private Integer aid;
@@ -27,4 +25,6 @@ public class JoinInfoVo {
     private String age;
     private String restPay;
     private Integer busSeat;
+    private Integer tableSeat;
+    private Integer roomId;
 }

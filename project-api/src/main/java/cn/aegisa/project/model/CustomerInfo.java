@@ -1,7 +1,6 @@
 package cn.aegisa.project.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,8 +9,7 @@ import java.time.LocalDateTime;
 /**
  * CustomerInfo Entity.
  */
-@Setter
-@Getter
+@Data
 public class CustomerInfo implements Serializable{
 	
 	//列信息

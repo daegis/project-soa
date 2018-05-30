@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author HNAyd.xian
  * @date 2018/3/1 17:28
  */
+@SuppressWarnings("Duplicates")
 @RestController
 @RequestMapping("/join")
 @Slf4j
@@ -43,11 +44,28 @@ public class JoinRestController {
         return JSON.toJSONString(result);
     }
 
+    // 设置汽车座位号
     @RequestMapping("/setBusSeat")
     public String setBusSeat(Integer id, String seat) {
+        return setInActivityInfo("bus", id, seat);
+    }
+
+    // 设置用户就餐座位号
+    @RequestMapping("/setTableSeat")
+    public String setTableSeat(Integer id, String seat) {
+        return setInActivityInfo("table", id, seat);
+    }
+
+    // 设置用户房间号
+    @RequestMapping("/setRoomId")
+    public String setRoomId(Integer id, String seat) {
+        return setInActivityInfo("room", id, seat);
+    }
+
+    private String setInActivityInfo(String type, Integer id, String number) {
         try {
-            int seatNumber = Integer.parseInt(seat);
-            joinService.setBusSeat(id, seatNumber);
+            int seatNumber = Integer.parseInt(number);
+            joinService.setInActivityInfo(type, id, seatNumber);
             return MessageResponse.success();
         } catch (Exception e) {
             return MessageResponse.fail(e.getMessage());

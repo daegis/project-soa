@@ -1,7 +1,6 @@
 package cn.aegisa.project.vo;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Using IntelliJ IDEA.
@@ -9,8 +8,7 @@ import lombok.Setter;
  * @author HNAyd.xian
  * @date 2018/2/11 13:39
  */
-@Setter
-@Getter
+@Data
 public class ActivityResponseVo {
     private String id;
     private String name;
@@ -18,4 +16,5 @@ public class ActivityResponseVo {
     private String day;
     private String price;
     private String currentCount;
+    private String status;
 }

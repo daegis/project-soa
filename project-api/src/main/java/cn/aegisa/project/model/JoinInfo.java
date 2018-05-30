@@ -1,7 +1,6 @@
 package cn.aegisa.project.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,8 +9,7 @@ import java.time.LocalDateTime;
 /**
  * JoinInfo Entity.
  */
-@Setter
-@Getter
+@Data
 public class JoinInfo implements Serializable {
 
     //列信息
@@ -39,6 +37,7 @@ public class JoinInfo implements Serializable {
 
     private LocalDateTime lastModifyTime;
 
+    private Integer roomId;
 
 }
 

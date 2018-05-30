@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@SuppressWarnings("all")
 public class ReportServiceImpl implements ReportService {
 
     @Autowired
@@ -37,7 +38,17 @@ public class ReportServiceImpl implements ReportService {
     private ActivityService activityService;
 
     @Override
-    public void reportCommonTable(Integer aid, FileInputStream in, ServletOutputStream outputStream) {
+    public void reportCommonTable(Integer aid, String type, FileInputStream in, ServletOutputStream outputStream) {
+        if (type.equals("zuoweibiao")) {
+            busProcessor(aid, type, in, outputStream);
+        } else if (type.equals("jiucanbiao")) {
+            eatProcessor(aid, type, in, outputStream);
+        } else if (type.equals("fangjianbiao")) {
+            sleepProcessor(aid, type, in, outputStream);
+        }
+    }
+
+    private void sleepProcessor(Integer aid, String type, FileInputStream in, ServletOutputStream outputStream) {
         ActivityInfo activityInfo = activityService.getById(aid);
         List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", aid);
         // 参加该活动的人员id集合
@@ -47,6 +58,20 @@ public class ReportServiceImpl implements ReportService {
         }
         List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
         Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
+        joinInfoList.sort(new Comparator<JoinInfo>() {
+            @Override
+            public int compare(JoinInfo o1, JoinInfo o2) {
+                Integer o1Seat = o1.getRoomId();
+                Integer o2Seat = o2.getRoomId();
+                if (o1Seat == null) {
+                    return 1;
+                }
+                if (o2Seat == null) {
+                    return -1;
+                }
+                return o1Seat - o2Seat;
+            }
+        });
         try {
             HSSFWorkbook book = new HSSFWorkbook(in);
             HSSFSheet sheet = book.getSheetAt(0);
@@ -57,7 +82,10 @@ public class ReportServiceImpl implements ReportService {
                 Integer cid = joinInfo.getCid();
                 CustomerInfo customerInfo = mappingCustomer.get(cid);
                 row = sheet.createRow(rowIndex);
-                row.createCell(0).setCellValue(joinInfo.getBusSeat());
+                Integer busSeat = joinInfo.getBusSeat();
+                if (busSeat != null) {
+                    row.createCell(15).setCellValue(busSeat);
+                }
                 row.createCell(1).setCellValue(customerInfo.getRealName());
                 row.createCell(2).setCellValue(customerInfo.getNickname());
                 String idNumber = customerInfo.getIdNumber();
@@ -70,6 +98,146 @@ public class ReportServiceImpl implements ReportService {
                 row.createCell(11).setCellValue(joinInfo.getPayMethod());
                 row.createCell(12).setCellValue("-" + idNumber + "-");
                 row.createCell(13).setCellValue("-" + customerInfo.getTelephone() + "-");
+                Integer tableSeat = joinInfo.getTableSeat();
+                if (tableSeat != null) {
+                    row.createCell(14).setCellValue(tableSeat);
+                }
+                Integer roomId = joinInfo.getRoomId();
+                if (roomId != null) {
+                    row.createCell(0).setCellValue(roomId);
+                }
+                rowIndex++;
+            }
+            book.write(outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void eatProcessor(Integer aid, String type, FileInputStream in, ServletOutputStream outputStream) {
+        ActivityInfo activityInfo = activityService.getById(aid);
+        List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", aid);
+        // 参加该活动的人员id集合
+        List<Integer> customerIdList = joinInfoList.stream().map(JoinInfo::getCid).collect(Collectors.toList());
+        if (customerIdList == null || customerIdList.size() == 0) {
+            return;
+        }
+        List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
+        Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
+        joinInfoList.sort(new Comparator<JoinInfo>() {
+            @Override
+            public int compare(JoinInfo o1, JoinInfo o2) {
+                Integer o1Seat = o1.getTableSeat();
+                Integer o2Seat = o2.getTableSeat();
+                if (o1Seat == null) {
+                    return 1;
+                }
+                if (o2Seat == null) {
+                    return -1;
+                }
+                return o1Seat - o2Seat;
+            }
+        });
+        try {
+            HSSFWorkbook book = new HSSFWorkbook(in);
+            HSSFSheet sheet = book.getSheetAt(0);
+            sheet.setForceFormulaRecalculation(true);
+            int rowIndex = 1;
+            HSSFRow row;
+            for (JoinInfo joinInfo : joinInfoList) {
+                Integer cid = joinInfo.getCid();
+                CustomerInfo customerInfo = mappingCustomer.get(cid);
+                row = sheet.createRow(rowIndex);
+                Integer busSeat = joinInfo.getBusSeat();
+                if (busSeat != null) {
+                    row.createCell(14).setCellValue(busSeat);
+                }
+                row.createCell(1).setCellValue(customerInfo.getRealName());
+                row.createCell(2).setCellValue(customerInfo.getNickname());
+                String idNumber = customerInfo.getIdNumber();
+                row.createCell(3).setCellValue(IDNumberUtil.getAgeFromID(idNumber));
+                row.createCell(4).setCellValue(IDNumberUtil.getGender(idNumber));
+                row.createCell(5).setCellValue(activityInfo.getPrice());
+                row.createCell(6).setCellValue(joinInfo.getDiscount());
+                row.createCell(7).setCellValue(joinInfo.getPrepay());
+                row.createCell(8).setCellValue(activityInfo.getPrice() - joinInfo.getDiscount() - joinInfo.getPrepay());
+                row.createCell(11).setCellValue(joinInfo.getPayMethod());
+                row.createCell(12).setCellValue("-" + idNumber + "-");
+                row.createCell(13).setCellValue("-" + customerInfo.getTelephone() + "-");
+                Integer tableSeat = joinInfo.getTableSeat();
+                if (tableSeat != null) {
+                    row.createCell(0).setCellValue(tableSeat);
+                }
+                Integer roomId = joinInfo.getRoomId();
+                if (roomId != null) {
+                    row.createCell(15).setCellValue(roomId);
+                }
+                rowIndex++;
+            }
+            book.write(outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void busProcessor(Integer aid, String type, FileInputStream in, ServletOutputStream outputStream) {
+        ActivityInfo activityInfo = activityService.getById(aid);
+        List<JoinInfo> joinInfoList = commonService.getList(JoinInfo.class, "aid", aid);
+        // 参加该活动的人员id集合
+        List<Integer> customerIdList = joinInfoList.stream().map(JoinInfo::getCid).collect(Collectors.toList());
+        if (customerIdList == null || customerIdList.size() == 0) {
+            return;
+        }
+        List<CustomerInfo> customerInfoList = commonService.getListBySqlId(CustomerInfo.class, "selectByIds", "idList", customerIdList);
+        Map<Integer, CustomerInfo> mappingCustomer = mappingCustomerList(customerInfoList);
+        joinInfoList.sort(new Comparator<JoinInfo>() {
+            @Override
+            public int compare(JoinInfo o1, JoinInfo o2) {
+                Integer o1Seat = o1.getBusSeat();
+                Integer o2Seat = o2.getBusSeat();
+                if (o1Seat == null) {
+                    return 1;
+                }
+                if (o2Seat == null) {
+                    return -1;
+                }
+                return o1Seat - o2Seat;
+            }
+        });
+        try {
+            HSSFWorkbook book = new HSSFWorkbook(in);
+            HSSFSheet sheet = book.getSheetAt(0);
+            sheet.setForceFormulaRecalculation(true);
+            int rowIndex = 1;
+            HSSFRow row;
+            for (JoinInfo joinInfo : joinInfoList) {
+                Integer cid = joinInfo.getCid();
+                CustomerInfo customerInfo = mappingCustomer.get(cid);
+                row = sheet.createRow(rowIndex);
+                Integer busSeat = joinInfo.getBusSeat();
+                if (busSeat != null) {
+                    row.createCell(0).setCellValue(busSeat);
+                }
+                row.createCell(1).setCellValue(customerInfo.getRealName());
+                row.createCell(2).setCellValue(customerInfo.getNickname());
+                String idNumber = customerInfo.getIdNumber();
+                row.createCell(3).setCellValue(IDNumberUtil.getAgeFromID(idNumber));
+                row.createCell(4).setCellValue(IDNumberUtil.getGender(idNumber));
+                row.createCell(5).setCellValue(activityInfo.getPrice());
+                row.createCell(6).setCellValue(joinInfo.getDiscount());
+                row.createCell(7).setCellValue(joinInfo.getPrepay());
+                row.createCell(8).setCellValue(activityInfo.getPrice() - joinInfo.getDiscount() - joinInfo.getPrepay());
+                row.createCell(11).setCellValue(joinInfo.getPayMethod());
+                row.createCell(12).setCellValue("-" + idNumber + "-");
+                row.createCell(13).setCellValue("-" + customerInfo.getTelephone() + "-");
+                Integer tableSeat = joinInfo.getTableSeat();
+                if (tableSeat != null) {
+                    row.createCell(14).setCellValue(tableSeat);
+                }
+                Integer roomId = joinInfo.getRoomId();
+                if (roomId != null) {
+                    row.createCell(15).setCellValue(roomId);
+                }
                 rowIndex++;
             }
             book.write(outputStream);

@@ -109,6 +109,11 @@ public class CustomerServiceImpl implements CustomerService {
         if (!StrUtil.strCheckNotNull(customerInfo.getNickname())) {
             throw new Exception("网名不能为空");
         }
+        customerInfo.setNickname(customerInfo.getNickname().trim());
+        String realName = customerInfo.getRealName();
+        if (realName != null && !realName.equals("")) {
+            customerInfo.setRealName(realName.trim());
+        }
         String telephone = customerInfo.getTelephone();
         if (!StrUtil.strCheckNotNull(telephone)) {
             throw new Exception("电话号码不能为空");

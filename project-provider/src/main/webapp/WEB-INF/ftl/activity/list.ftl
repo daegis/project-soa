@@ -20,9 +20,10 @@
                 {field: 'id', title: 'ID', width: 50, align: 'center'},
                 {field: 'name', title: '活动名称', width: 300, align: 'center'},
                 {field: 'date', title: '活动日期', width: 120, align: 'center'},
-                {field: 'day', title: '天数', width: 120, align: 'center', templet: '#sexTpl'},
+                {field: 'day', title: '天数', width: 80, align: 'center', templet: '#sexTpl'},
                 {field: 'price', title: '价格', width: 120, align: 'center'},
                 {field: 'currentCount', title: '当前活动人数', width: 120, align: 'center'},
+                {field: 'status', title: '活动状态', width: 90, align: 'center'},
                 {width: 260, align: 'center', toolbar: '#bar'}
             ]],
             url: '${rc.contextPath}/activity/findOnPage'
@@ -32,10 +33,24 @@
             if (obj.event === 'detail') {
                 window.location = "${rc.contextPath}/to/activityDetail/" + data.id;
             } else if (obj.event === 'del') {
-                layer.alert("为保证数据安全, 页面不提供删除功能. 如需删除具体人员或活动, 请将人员或者活动的id告知管理员", {
-                    icon: 0,
-                    offset: '100px'
-                });
+                $.ajax({
+                    url: '${rc.contextPath}/activity/end',
+                    type: 'post',
+                    data: {
+                        aid: data.id
+                    },
+                    dataType: 'json',
+                    error: function () {
+                        alert('服务器连接失败');
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.reload();
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
@@ -58,7 +73,7 @@
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看活动详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">调整状态</a>
 </script>
 </body>
 </html>

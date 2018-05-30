@@ -44,6 +44,11 @@
         </tbody>
     </table>
 </div>
+<#if warn??>
+    <blockquote class="layui-elem-quote layui-quote-nm">
+        ${warn}
+    </blockquote>
+</#if>
 <fieldset class="layui-elem-field layui-field-title">
     <legend>参加当前活动的人员列表</legend>
 </fieldset>
@@ -66,10 +71,10 @@
                 , {field: 'joinDate', title: '报名日期', sort: true, width: 120, align: 'center'}
                 , {field: 'gender', title: '性别', sort: true, width: 75, align: 'center', templet: '#genderTpl'}
                 , {field: 'age', title: '年龄', sort: true, width: 75, align: 'center', templet: '#ageTpl'}
-                , {field: 'discount', title: '折扣', width: 90, align: 'center'}
-                , {field: 'prepay', title: '预付', width: 90, align: 'center'}
-                , {field: 'payMethod', title: '方式', sort: true, width: 120, align: 'center', templet: '#methodTpl'}
-                , {field: 'restPay', title: '余款', sort: true, width: 120, align: 'center'}
+                , {field: 'discount', title: '折扣', width: 75, align: 'center'}
+                , {field: 'prepay', title: '预付', width: 75, align: 'center'}
+                , {field: 'payMethod', title: '方式', sort: true, width: 100, align: 'center', templet: '#methodTpl'}
+                , {field: 'restPay', title: '余款', sort: true, width: 100, align: 'center'}
                 , {
                     field: 'busSeat',
                     title: '汽车座位',
@@ -78,6 +83,24 @@
                     align: 'center',
                     style: 'cursor: pointer;',
                     event: 'setSeat'
+                }
+                , {
+                    field: 'tableSeat',
+                    title: '就餐位置',
+                    sort: true,
+                    width: 100,
+                    align: 'center',
+                    style: 'cursor: pointer;',
+                    event: 'setTable'
+                }
+                , {
+                    field: 'roomId',
+                    title: '住宿房间',
+                    sort: true,
+                    width: 100,
+                    align: 'center',
+                    style: 'cursor: pointer;',
+                    event: 'setRoom'
                 }
                 , {field: 'joinComment', title: '备注信息', width: 120, align: 'center'}
                 , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
@@ -94,15 +117,65 @@
             var layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-
+            /*设置汽车座位*/
             if (obj.event === 'setSeat') {
                 layer.prompt({
                     formType: 0
-                    , title: '设置名字为 [' + data.realName + '](' + data.nickname + ') 的用户的座位号'
+                    , title: '设置名字为 [' + data.realName + '](' + data.nickname + ') 的用户的汽车座位号'
                     , value: ''
                 }, function (value, index) {
                     $.ajax({
                         url: '${rc.contextPath}/join/setBusSeat',
+                        type: 'post',
+                        data: {id: data.id, seat: value},
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                layer.close(index);
+                                window.location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+
+                });
+            }
+
+            /*设置就餐座位*/
+            if (obj.event === 'setTable') {
+                layer.prompt({
+                    formType: 0
+                    , title: '设置名字为 [' + data.realName + '](' + data.nickname + ') 的用户的就餐座位号'
+                    , value: ''
+                }, function (value, index) {
+                    $.ajax({
+                        url: '${rc.contextPath}/join/setTableSeat',
+                        type: 'post',
+                        data: {id: data.id, seat: value},
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                layer.close(index);
+                                window.location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+
+                });
+            }
+
+            /*设置住宿房间*/
+            if (obj.event === 'setRoom') {
+                layer.prompt({
+                    formType: 0
+                    , title: '设置名字为 [' + data.realName + '](' + data.nickname + ') 的用户的房间号'
+                    , value: ''
+                }, function (value, index) {
+                    $.ajax({
+                        url: '${rc.contextPath}/join/setRoomId',
                         type: 'post',
                         data: {id: data.id, seat: value},
                         dataType: 'json',

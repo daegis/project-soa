@@ -78,15 +78,15 @@ public class ReportController {
         return "report/announce";
     }
 
-    @RequestMapping("/commonInfo/{aid}")
-    public void reportCommonTable(@PathVariable Integer aid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping("/commonInfo/{aid}/{type}")
+    public void reportCommonTable(@PathVariable Integer aid, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ServletContext servletContext = request.getSession().getServletContext();
         String realPath = servletContext.getRealPath(File.separator);
-        String filePath = realPath + File.separator + "template" + File.separator + "infoTable.xls";
+        String filePath = realPath + File.separator + "template" + File.separator + type + ".xls";
         FileInputStream in = new FileInputStream(filePath);
         ServletOutputStream outputStream = response.getOutputStream();
-        response.setHeader("content-disposition", "attachment;fileName=mingdan" + System.currentTimeMillis() + ".xls");
-        reportService.reportCommonTable(aid, in, outputStream);
+        response.setHeader("content-disposition", "attachment;fileName=" + type + System.currentTimeMillis() + ".xls");
+        reportService.reportCommonTable(aid, type, in, outputStream);
     }
 
     @RequestMapping("/insurance/{aid}")

@@ -24,4 +24,6 @@ public interface JoinService {
     void deleteFromActivity(Integer id);
 
     JoinInfo getById(Integer id);
+
+    void setInActivityInfo(String type, Integer id, int seatNumber);
 }
