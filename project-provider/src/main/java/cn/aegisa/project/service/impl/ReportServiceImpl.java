@@ -1,6 +1,5 @@
 package cn.aegisa.project.service.impl;
 
-import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
 import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.model.JoinInfo;
@@ -8,6 +7,7 @@ import cn.aegisa.project.service.ActivityService;
 import cn.aegisa.project.service.ReportService;
 import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.StrUtil;
+import cn.aegisa.selext.dao.service.ICommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;

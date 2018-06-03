@@ -8,7 +8,6 @@
     <artifactId>project-soa</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>project-dao</module>
         <module>project-api</module>
         <module>project-client</module>
         <module>project-provider</module>

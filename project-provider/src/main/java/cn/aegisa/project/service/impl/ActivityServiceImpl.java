@@ -1,14 +1,16 @@
 package cn.aegisa.project.service.impl;
 
-import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.ActivityInfo;
+import cn.aegisa.project.model.CustomerInfo;
 import cn.aegisa.project.model.JoinInfo;
 import cn.aegisa.project.service.ActivityService;
+import cn.aegisa.project.utils.IDNumberUtil;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
 import cn.aegisa.project.vo.ActivityAddVo;
 import cn.aegisa.project.vo.ActivityResponseVo;
 import cn.aegisa.project.vo.LayuiDataGridResponse;
+import cn.aegisa.selext.dao.service.ICommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,6 +127,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public String getConflictSeat(Integer id) {
         List<JoinInfo> infoList = commonService.getList(JoinInfo.class, "aid", id);
+        List<String> resultList = new LinkedList<>();
         if (infoList != null && infoList.size() > 0) {
             int nullCount = 0;
             Map<Integer, Integer> map = new ConcurrentHashMap<>();
@@ -149,12 +152,8 @@ public class ActivityServiceImpl implements ActivityService {
                     set.add(key);
                 }
             }
-            if (set.isEmpty() && nullCount == 0) {
-                return null;
-            }
-            StringBuilder sb = new StringBuilder("发现一些关于此活动的异常信息：<br>");
             if (nullCount > 0) {
-                sb.append("有<font color=\"red\">【").append(nullCount).append("】</font>个参与活动的客户还没有设置座位号。<br>");
+                resultList.add("有<font color=\"red\">【" + nullCount + "】</font>个参与活动的客户还没有设置座位号。");
             }
             if (!set.isEmpty()) {
                 Iterator<Integer> iterator = set.iterator();
@@ -164,9 +163,32 @@ public class ActivityServiceImpl implements ActivityService {
                     Integer in = iterator.next();
                     numbers.append("，").append(String.valueOf(in));
                 }
-                sb.append("检测到重复的座位号（严重）：").append("<font color=\"red\">").append(numbers).append("</font>。");
+                resultList.add("检测到重复的座位号（严重）：<font color=\"red\">" + numbers + "</font>。");
             }
-            return sb.toString();
+            for (JoinInfo joinInfo : infoList) {
+                Integer cid = joinInfo.getCid();
+                CustomerInfo customerInfo = commonService.get(cid, CustomerInfo.class);
+                String realName = customerInfo.getRealName();
+                String nickname = customerInfo.getNickname();
+                if (realName == null || realName.trim().equals("")) {
+                    // 真实姓名为空
+                    resultList.add("<font color=\"red\">【" + nickname + "】</font>还没有设置真实姓名（重要）。");
+                }
+                boolean b = IDNumberUtil.checkID(customerInfo.getIdNumber());
+                if (!b) {
+                    resultList.add("<font color=\"red\">【" + nickname + "】</font>还没有设置正确的身份证号码（重要）。");
+                }
+            }
+            if (resultList.isEmpty()) {
+                return null;
+            } else {
+                StringBuilder sb = new StringBuilder("发现一些关于此活动的异常信息：<br>");
+                for (String tip : resultList) {
+                    sb.append(tip).append("<br>");
+                }
+                sb.append("在出发之前尽快处理这些问题");
+                return sb.toString();
+            }
         }
         return null;
     }

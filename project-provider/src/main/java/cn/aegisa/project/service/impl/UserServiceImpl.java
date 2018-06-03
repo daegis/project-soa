@@ -1,10 +1,10 @@
 package cn.aegisa.project.service.impl;
 
-import cn.aegisa.project.dao.service.ICommonService;
 import cn.aegisa.project.model.User;
 import cn.aegisa.project.service.UserService;
 import cn.aegisa.project.utils.LocalDateTimeUtil;
 import cn.aegisa.project.utils.StrUtil;
+import cn.aegisa.selext.dao.service.ICommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
